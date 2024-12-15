@@ -6,7 +6,7 @@ From wiki.vg
 
 ## Heads up!
 
-This article is about the protocol for a **stable** release of Minecraft **Java Edition** ([1.21.1, protocol 767](http://wiki.vg/Protocol_version_numbers "Protocol version numbers")). For the Java Edition pre-releases, see [Pre-release protocol](http://wiki.vg/Pre-release_protocol "Pre-release protocol"). For the incomplete Bedrock Edition docs, see [Bedrock Protocol](http://wiki.vg/Bedrock_Protocol "Bedrock Protocol"). For the old Pocket Edition, see [Pocket Edition Protocol Documentation](http://wiki.vg/Pocket_Edition_Protocol_Documentation "Pocket Edition Protocol Documentation").
+This article is about the protocol for a **stable** release of Minecraft **Java Edition** ([1.21.2, protocol 768](http://wiki.vg/Protocol_version_numbers "Protocol version numbers")). For the Java Edition pre-releases, see [Pre-release protocol](http://wiki.vg/Pre-release_protocol "Pre-release protocol"). For the incomplete Bedrock Edition docs, see [Bedrock Protocol](http://wiki.vg/Bedrock_Protocol "Bedrock Protocol"). For the old Pocket Edition, see [Pocket Edition Protocol Documentation](http://wiki.vg/Pocket_Edition_Protocol_Documentation "Pocket Edition Protocol Documentation").
 
 ---
 
@@ -504,7 +504,6 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 ^ | ^ | ^ | ^ Value | ^ [String](#Type:String) (32767)
 ^ | ^ | ^ | ^ Is Signed | ^ [Boolean](#Type:Boolean)
 ^ | ^ | ^ | ^ Signature | ^ [Optional](#Type:Optional) [String](#Type:String) (32767) | Only if Is Signed is true.
-^ | ^ | ^ | Strict Error Handling | [Boolean](#Type:Boolean) | Whether the client should immediately disconnect upon a packet processing error. The Notchian client silently ignores them when this flag is false.<br><br>![Warning.png](Protocol%20-%20wiki.vg_files/Warning.png) This field was temporarily added in 1.20.5 as a [way to aid modded servers with the transition to the new data pack &amp; registry system](https://www.minecraft.net/en-us/article/minecraft-java-edition-1-20-5), allowing them to tell the client to silently ignore packets containing inconsistent data. **It will be removed in 1.21.2**, but it is still present as of version 1.21.1. ---
 
 The Property field looks like response of [Mojang API#UUID to Profile and Skin/Cape](http://wiki.vg/Mojang_API#UUID_to_Profile_and_Skin.2FCape "Mojang API"), except using the protocol format instead of JSON. That is, each player will usually have one property with Name being “textures” and Value being a base64-encoded JSON string, as documented at [Mojang API#UUID to Profile and Skin/Cape](http://wiki.vg/Mojang_API#UUID_to_Profile_and_Skin.2FCape "Mojang API"). An empty properties array is also acceptable, and will cause clients to display the player with one of the two default skins depending their UUID (again, see the Mojang API page).
 
@@ -3271,6 +3270,10 @@ Action ID | Action | Notes
 --- | --- | ---
 0 | Perform respawn | Sent when the client is ready to complete login and when the client is ready to respawn after death.
 1 | Request stats | Sent when the client opens the Statistics menu.
+
+#### Client Tick End
+
+Sent when the client finishes processing its current tick.
 
 #### Client Information (play)
 
