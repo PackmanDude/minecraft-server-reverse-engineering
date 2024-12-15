@@ -663,7 +663,7 @@ See [Registry Data](http://wiki.vg/Registry_Data "Registry Data") for details.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x07`<br><br>*resource:*<br>`registry_data` | Configuration | Client | Registry ID | [Identifier](#Type:Identifier) 
+*protocol:*<br>`0x07`<br><br>*resource:*<br>`registry_data` | Configuration | Client | Registry ID | [Identifier](#Type:Identifier)
 ^ | ^ | ^ | Entry Count | [VarInt](#Type:VarInt) | Number of entries in the following array.
 ^ | ^ | ^ | Entries Entry ID | [Array](#Type:Array) [Identifier](#Type:Identifier)
 ^ | ^ | ^ | ^ Has Data | ^ [Boolean](#Type:Boolean) | Whether the entry has any data following.
@@ -875,7 +875,7 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x06`<br><br>*resource:*<br>`resource_pack` | Configuration | Server | UUID | [UUID](#Type:UUID) | The unique identifier of the resource pack received in the [Add Resource Pack (configuration)](#Add_Resource_Pack_.28configuration.29) request. 
+*protocol:*<br>`0x06`<br><br>*resource:*<br>`resource_pack` | Configuration | Server | UUID | [UUID](#Type:UUID) | The unique identifier of the resource pack received in the [Add Resource Pack (configuration)](#Add_Resource_Pack_.28configuration.29) request.
 ^ | ^ | ^ | Result | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Result ID (see below).
 
 Result can be one of the following values:
@@ -3502,9 +3502,9 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
 0x16 | Play | Server | Entity ID | [VarInt](#Type:VarInt) | The ID of the entity to interact. Note the special case described below.
 ^ | ^ | ^ | Type | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: interact, 1: attack, 2: interact at.
-^ | ^ | ^ | Target X | [Optional](#Type:Optional) [Float](#Type:Float) | Only if Type is interact at. 
-^ | ^ | ^ | Target Y | [Optional](#Type:Optional) [Float](#Type:Float) | Only if Type is interact at. 
-^ | ^ | ^ | Target Z | [Optional](#Type:Optional) [Float](#Type:Float) | Only if Type is interact at. 
+^ | ^ | ^ | Target X | [Optional](#Type:Optional) [Float](#Type:Float) | Only if Type is interact at.
+^ | ^ | ^ | Target Y | [Optional](#Type:Optional) [Float](#Type:Float) | Only if Type is interact at.
+^ | ^ | ^ | Target Z | [Optional](#Type:Optional) [Float](#Type:Float) | Only if Type is interact at.
 ^ | ^ | ^ | Hand | [Optional](#Type:Optional) [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Only if Type is interact or interact at; 0: main hand, 1: off hand.
 ^ | ^ | ^ | Sneaking | [Boolean](#Type:Boolean) | If the client is sneaking.
 
@@ -3725,9 +3725,9 @@ Sent when the player mines a block. A Notchian server only accepts digging packe
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x24 | Play | Server | Status | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The action the player is taking against the block (see below). 
+0x24 | Play | Server | Status | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The action the player is taking against the block (see below).
 ^ | ^ | ^ | Location | [Position](#Type:Position) | Block position.
-^ | ^ | ^ | Face | [Byte](#Type:Byte) [Enum](#Type:Enum) | The face being hit (see below). 
+^ | ^ | ^ | Face | [Byte](#Type:Byte) [Enum](#Type:Enum) | The face being hit (see below).
 ^ | ^ | ^ | Sequence | [VarInt](#Type:VarInt) | Block change sequence number (see [#Acknowledge Block Change](#Acknowledge_Block_Change)).
 
 Status can be one of seven values:
@@ -3760,7 +3760,7 @@ Sent by the client to indicate that it has performed certain actions: sneaking (
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
 0x25 | Play | Server | Entity ID | [VarInt](#Type:VarInt) | Player ID
-^ | ^ | ^ | Action ID | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The ID of the action, see below. 
+^ | ^ | ^ | Action ID | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The ID of the action, see below.
 ^ | ^ | ^ | Jump Boost | [VarInt](#Type:VarInt) | Only used by the “start jump with horse” action, in which case it ranges from 0 to 100. In all other cases it is 0.
 
 Action ID can be one of the following values:
@@ -3785,7 +3785,7 @@ Open vehicle inventory is only sent when pressing the inventory key (default: E)
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x26 | Play | Server | Sideways | [Float](#Type:Float) | Positive to the left of the player. 
+0x26 | Play | Server | Sideways | [Float](#Type:Float) | Positive to the left of the player.
 ^ | ^ | ^ | Forward | [Float](#Type:Float) | Positive forward.
 ^ | ^ | ^ | Flags | [Unsigned Byte](#Type:Unsigned_Byte) | Bit mask. 0x1: jump, 0x2: unmount.
 
@@ -3806,7 +3806,7 @@ Replaces Recipe Book Data, type 1.
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
 0x28 | Play | Server | Book ID | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: crafting, 1: furnace, 2: blast furnace, 3: smoker.
-^ | ^ | ^ | Book Open | [Boolean](#Type:Boolean) 
+^ | ^ | ^ | Book Open | [Boolean](#Type:Boolean)
 ^ | ^ | ^ | Filter Active | [Boolean](#Type:Boolean)
 
 #### Set Seen Recipe
@@ -3916,9 +3916,9 @@ Sent when Done is pressed on the [Jigsaw Block](https://minecraft.wiki/w/Jigsaw_
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
 0x33 | Play | Server | Location | [Position](#Type:Position) | Block entity location
-^ | ^ | ^ | Name | [Identifier](#Type:Identifier) 
-^ | ^ | ^ | Target | [Identifier](#Type:Identifier) 
-^ | ^ | ^ | Pool | [Identifier](#Type:Identifier) 
+^ | ^ | ^ | Name | [Identifier](#Type:Identifier)
+^ | ^ | ^ | Target | [Identifier](#Type:Identifier)
+^ | ^ | ^ | Pool | [Identifier](#Type:Identifier)
 ^ | ^ | ^ | Final state | [String](#Type:String) (32767) | "Turns into" on the GUI, `final_state` in NBT.
 ^ | ^ | ^ | Joint type | [String](#Type:String) (32767) | `rollable` if the attached piece can be rotated, else `aligned`.
 ^ | ^ | ^ | Selection priority | [VarInt](#Type:VarInt)
@@ -3929,9 +3929,9 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
 0x34 | Play | Server | Location | [Position](#Type:Position) | Block entity location.
-^ | ^ | ^ | Action | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | An additional action to perform beyond simply saving the given data; see below. 
+^ | ^ | ^ | Action | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | An additional action to perform beyond simply saving the given data; see below.
 ^ | ^ | ^ | Mode | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | One of SAVE (0), LOAD (1), CORNER (2), DATA (3).
-^ | ^ | ^ | Name | [String](#Type:String) (32767) 
+^ | ^ | ^ | Name | [String](#Type:String) (32767)
 ^ | ^ | ^ | Offset X | [Byte](#Type:Byte) | Between -48 and 48.
 ^ | ^ | ^ | Offset Y | [Byte](#Type:Byte) | Between -48 and 48.
 ^ | ^ | ^ | Offset Z | [Byte](#Type:Byte) | Between -48 and 48.
@@ -3939,8 +3939,8 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 ^ | ^ | ^ | Size Y | [Byte](#Type:Byte) | Between 0 and 48.
 ^ | ^ | ^ | Size Z | [Byte](#Type:Byte) | Between 0 and 48.
 ^ | ^ | ^ | Mirror | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | One of NONE (0), LEFT\_RIGHT (1), FRONT\_BACK (2).
-^ | ^ | ^ | Rotation | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | One of NONE (0), CLOCKWISE\_90 (1), CLOCKWISE\_180 (2), COUNTERCLOCKWISE\_90 (3). 
-^ | ^ | ^ | Metadata | [String](#Type:String) (128) 
+^ | ^ | ^ | Rotation | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | One of NONE (0), CLOCKWISE\_90 (1), CLOCKWISE\_180 (2), COUNTERCLOCKWISE\_90 (3).
+^ | ^ | ^ | Metadata | [String](#Type:String) (128)
 ^ | ^ | ^ | Integrity | [Float](#Type:Float) | Between 0 and 1.
 ^ | ^ | ^ | Seed | [VarLong](#Type:VarLong)
 ^ | ^ | ^ | Flags | [Byte](#Type:Byte) | 0x01: Ignore entities; 0x02: Show air; 0x04: Show bounding box.
@@ -3994,10 +3994,10 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 0x38 | Play | Server | Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The hand from which the block is placed; 0: main hand, 1: off hand.
 ^ | ^ | ^ | Location | [Position](#Type:Position) | Block position.
 ^ | ^ | ^ | Face | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The face on which the block is placed (as documented at [Player Action](#Player_Action)).
-^ | ^ | ^ | Cursor Position X | [Float](#Type:Float) | The position of the crosshair on the block, from 0 to 1 increasing from west to east. Cursor 
+^ | ^ | ^ | Cursor Position X | [Float](#Type:Float) | The position of the crosshair on the block, from 0 to 1 increasing from west to east. Cursor
 ^ | ^ | ^ | Position Y | [Float](#Type:Float) | The position of the crosshair on the block, from 0 to 1 increasing from bottom to top.
 ^ | ^ | ^ | Cursor Position Z | [Float](#Type:Float) | The position of the crosshair on the block, from 0 to 1 increasing from north to south.
-^ | ^ | ^ | Inside block | [Boolean](#Type:Boolean) | True when the player's head is inside of a block. 
+^ | ^ | ^ | Inside block | [Boolean](#Type:Boolean) | True when the player's head is inside of a block.
 ^ | ^ | ^ | Sequence | [VarInt](#Type:VarInt) | Block change sequence number (see [#Acknowledge Block Change](#Acknowledge_Block_Change)).
 
 Upon placing a block, this packet is sent once.
