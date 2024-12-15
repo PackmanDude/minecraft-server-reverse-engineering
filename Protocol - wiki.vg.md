@@ -4283,4 +4283,3 @@ Content is available under [Creative Commons Attribution Share Alike](http://cre
 - [Disclaimers](http://wiki.vg/wikivg:General_disclaimer "wikivg:General disclaimer")
 
 [![Creative Commons Attribution Share Alike](Protocol%20-%20wiki.vg_files/cc-by-sa.png)](http://creativecommons.org/licenses/by-sa/3.0)
-[![Powered by MediaWiki](Protocol%20-%20wiki.vg_files/poweredby_mediawiki_88x31.png)](https://www.mediawiki.org)
