@@ -3291,6 +3291,7 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 ^ | ^ | ^ | Main Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: Left, 1: Right.
 ^ | ^ | ^ | Enable text filtering | [Boolean](#Type:Boolean) | Enables filtering of text on signs and written book titles. The Notchian client sets this according to the `profanityFilterPreferences.profanityFilterOn` account attribute indicated by the [`/player/attributes` Mojang API endpoint](http://wiki.vg/Mojang_API#Player_Attributes "Mojang API"). In offline mode it is always false.
 ^ | ^ | ^ | Allow server listings | [Boolean](#Type:Boolean) | Servers usually list online players, this option should let you not show up in that list.
+^ | ^ | ^ | Particle status | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: All, 1: Decreased, 2: Minimal.
 
 *Displayed Skin Parts* flags:
 
