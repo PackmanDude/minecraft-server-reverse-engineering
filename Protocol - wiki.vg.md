@@ -497,7 +497,7 @@ See [Protocol Encryption](http://wiki.vg/Protocol_Encryption "Protocol Encryptio
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x02`<br><br>*resource:*<br>`game_profile` | Login | Client | UUID | [UUID](#Type:UUID)
+*protocol:*<br>`0x02`<br><br>*resource:*<br>`login_finished` | Login | Client | UUID | [UUID](#Type:UUID)
 ^ | ^ | ^ | Username | [String](#Type:String) (16)
 ^ | ^ | ^ | Number Of Properties | [VarInt](#Type:VarInt) | Number of elements in the following array.
 ^ | ^ | ^ | Property Name | [Array](#Type:Array) [String](#Type:String) (32767)
