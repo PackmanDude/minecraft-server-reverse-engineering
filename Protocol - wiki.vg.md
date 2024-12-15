@@ -1527,6 +1527,8 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 *protocol:*<br>`0x1F`<br><br>*resource:*<br>`entity_event` | Play | Client | Entity ID | [Int](#Type:Int)
 ^ | ^ | ^ | Entity Status | [Byte](#Type:Byte) [Enum](#Type:Enum) | See [Entity statuses](http://wiki.vg/Entity_statuses "Entity statuses") for a list of which statuses are valid for each type of entity.
 
+#### Synchronise Entity Position
+
 #### Explosion
 
 Sent when an explosion occurs (creepers, TNT, and ghast fireballs).
@@ -2214,7 +2216,7 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 If the entity given by entity ID cannot be found, this packet should be treated as if is entity was false.
 
-#### Synchronize Player Position
+#### Synchronise Player Position
 
 Teleports the client, e.g. during login, when using an ender pearl, in response to invalid move packets, etc.
 
@@ -2530,7 +2532,7 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 Sent by the server after login to specify the coordinates of the spawn point (the point at which players spawn at, and which the compass points to). It can be sent at any time to update the point compasses point at.
 
-The client uses this as the default position of the player upon spawning, though it's a good idea to always override this default by sending [Synchronize Player Position](#Synchronize_Player_Position). When converting the position to floating point, 0.5 is added to the x and z coordinates and 1.0 to the y coordinate, so as to place the player centered on top of the specified block position.
+The client uses this as the default position of the player upon spawning, though it's a good idea to always override this default by sending [Synchronise Player Position](#Synchronise_Player_Position). When converting the position to floating point, 0.5 is added to the x and z coordinates and 1.0 to the y coordinate, so as to place the player centered on top of the specified block position.
 
 Before receiving this packet, the client uses the default position 8, 64, 8, and angle 0.0 (resulting in a default player spawn position of 8.5, 65.0, 8.5).
 
@@ -3169,11 +3171,11 @@ ID | Name | Notes
 
 #### Confirm Teleportation
 
-Sent by client as confirmation of [Synchronize Player Position](#Synchronize_Player_Position).
+Sent by client as confirmation of [Synchronise Player Position](#Synchronise_Player_Position).
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x00`<br><br>*resource:*<br>`accept_teleportation` | Play | Server | Teleport ID | [VarInt](#Type:VarInt) | The ID given by the [Synchronize Player Position](#Synchronize_Player_Position) packet.
+*protocol:*<br>`0x00`<br><br>*resource:*<br>`accept_teleportation` | Play | Server | Teleport ID | [VarInt](#Type:VarInt) | The ID given by the [Synchronise Player Position](#Synchronise_Player_Position) packet.
 
 #### Query Block Entity Tag
 
@@ -3363,7 +3365,7 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 See [Inventory](http://wiki.vg/Inventory "Inventory") for further information about how slots are indexed.
 
-After performing the action, the server compares the results to the slot change information included in the packet, as applied on top of the server's view of the container's state prior to the action. For any slots that do not match, it sends [Set Container Slot](#Set_Container_Slot) packets containing the correct results. If State ID does not match the last ID sent by the server, it will instead send a full [Set Container Content](#Set_Container_Content) to resynchronize the client.
+After performing the action, the server compares the results to the slot change information included in the packet, as applied on top of the server's view of the container's state prior to the action. For any slots that do not match, it sends [Set Container Slot](#Set_Container_Slot) packets containing the correct results. If State ID does not match the last ID sent by the server, it will instead send a full [Set Container Content](#Set_Container_Content) to resynchronise the client.
 
 When right-clicking on a stack of items, half the stack will be picked up and half left in the slot. If the stack is an odd number, the half left in the slot will be smaller of the amounts.
 
@@ -3552,7 +3554,7 @@ Updates the player's XYZ position on the server.
 
 If the player is in a vehicle, the position is ignored (but in case of [Set Player Position and Rotation](#Set_Player_Position_and_Rotation), the rotation is still used as normal). No validation steps other than value range clamping are performed in this case.
 
-If the player is sleeping, the position (or rotation) is not changed, and a [Synchronize Player Position](#Synchronize_Player_Position) is sent if the received position deviated from the server's view by more than a meter.
+If the player is sleeping, the position (or rotation) is not changed, and a [Synchronise Player Position](#Synchronise_Player_Position) is sent if the received position deviated from the server's view by more than a meter.
 
 The Notchian server silently clamps the x and z coordinates between -30,000,000 and 30,000,000, and the y coordinate between -20,000,000 and 20,000,000. A similar condition has historically caused a kick for "Illegal position"; this is no longer the case. However, infinite or NaN coordinates (or angles) still result in a kick for `multiplayer.disconnect.invalid_player_movement`.
 
