@@ -1844,6 +1844,7 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 ^ | ^ | ^ | Death dimension name | [Optional](#Type:Optional) [Identifier](#Type:Identifier) | Name of the dimension the player died in.
 ^ | ^ | ^ | Death location | [Optional](#Type:Optional) [Position](#Type:Position) | The location that the player died at.
 ^ | ^ | ^ | Portal cooldown | [VarInt](#Type:VarInt) | The number of ticks until the player can use the portal again.
+^ | ^ | ^ | Sea level | [VarInt](#Type:VarInt) | Default: 63.
 ^ | ^ | ^ | Enforces Secure Chat | [Boolean](#Type:Boolean)
 
 #### Map Data
