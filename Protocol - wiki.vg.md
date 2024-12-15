@@ -215,11 +215,8 @@ For example, a 64-bit position can be broken down as follows:
 Example value (big endian): `01000110000001110110001100 10110000010101101101001000 001100111111`
 
 - The 1st value is the X coordinate, which is `18357644` in this example.
-  
 - The 2nd value is the Z coordinate, which is `-20882616` in this example.
-  
 - The 3rd value is the Y coordinate, which is `831` in this example.
-  
 
 Encoded as follows:
 
