@@ -1526,6 +1526,19 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 #### Synchronise Entity Position
 
+Packet ID | State | Bound To | Field Name | Field Type | Notes
+--- | --- | --- | --- | --- | ---
+*protocol:*<br>`0x20`<br><br>*resource:*<br>`entity_position_sync` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+^ | ^ | ^ | X | [Double](#Type:Double) | Absolute position (X coordinate).
+^ | ^ | ^ | Y | [Double](#Type:Double) | Absolute position (Y coordinate).
+^ | ^ | ^ | Z | [Double](#Type:Double) | Absolute position (Z coordinate).
+^ | ^ | ^ | Delta X | [Short](#Type:Short) | Change in X position as `currentX * 4096 - prevX * 4096`.
+^ | ^ | ^ | Delta Y | [Short](#Type:Short) | Change in Y position as `currentY * 4096 - prevY * 4096`.
+^ | ^ | ^ | Delta Z | [Short](#Type:Short) | Change in Z position as `currentZ * 4096 - prevZ * 4096`.
+^ | ^ | ^ | Yaw | [Angle](#Type:Angle) | New angle, not a delta.
+^ | ^ | ^ | Pitch | [Angle](#Type:Angle) | New angle, not a delta.
+^ | ^ | ^ | On Ground | [Boolean](#Type:Boolean)
+
 #### Explosion
 
 Sent when an explosion occurs (creepers, TNT, and ghast fireballs).
@@ -1534,7 +1547,7 @@ Each block in Records is set to air. Coordinates for each axis in record is int(
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x20`<br><br>*resource:*<br>`explode` | Play | Client | X | [Double](#Type:Double)
+*protocol:*<br>`0x21`<br><br>*resource:*<br>`explode` | Play | Client | X | [Double](#Type:Double)
 ^ | ^ | ^ | Y | [Double](#Type:Double)
 ^ | ^ | ^ | Z | [Double](#Type:Double)
 ^ | ^ | ^ | Strength | [Float](#Type:Float) | If the strength is greater or equal to 2.0, or the block interaction is not 0 (keep), large explosion particles are used. Otherwise, small explosion particles are used.
@@ -1554,7 +1567,7 @@ Tells the client to unload a chunk column.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x21`<br><br>*resource:*<br>`forget_level_chunk` | Play | Client | Chunk Z | [Int](#Type:Int) | Block coordinate divided by 16, rounded down.
+*protocol:*<br>`0x22`<br><br>*resource:*<br>`forget_level_chunk` | Play | Client | Chunk Z | [Int](#Type:Int) | Block coordinate divided by 16, rounded down.
 ^ | ^ | ^ | Chunk X | [Int](#Type:Int) | Block coordinate divided by 16, rounded down.
 
 Note: The order is inverted, because the client reads this packet as one big-endian [Long](#Type:Long), with Z being the upper 32 bits.
@@ -1567,7 +1580,7 @@ Used for a wide variety of game events, from weather to bed use to game mode to 
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x22`<br><br>*resource:*<br>`game_event` | Play | Client | Event | [Unsigned Byte](#Type:Unsigned_Byte) | See below.
+*protocol:*<br>`0x23`<br><br>*resource:*<br>`game_event` | Play | Client | Event | [Unsigned Byte](#Type:Unsigned_Byte) | See below.
 ^ | ^ | ^ | Value | [Float](#Type:Float) | Depends on Event.
 
 *Events*:
@@ -1595,7 +1608,7 @@ This packet is used exclusively for opening the horse GUI. [Open Screen](#Open_S
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x23`<br><br>*resource:*<br>`horse_screen_open` | Play | Client | Window ID | [Unsigned Byte](#Type:Unsigned_Byte)
+*protocol:*<br>`0x24`<br><br>*resource:*<br>`horse_screen_open` | Play | Client | Window ID | [Unsigned Byte](#Type:Unsigned_Byte)
 ^ | ^ | ^ | Slot count | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Entity ID | [Int](#Type:Int)
 
@@ -1605,14 +1618,14 @@ Plays a bobbing animation for the entity receiving damage.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x24`<br><br>*resource:*<br>`hurt_animation` | Play | Client | Entity ID | [VarInt](#Type:VarInt) | The ID of the entity taking damage
+*protocol:*<br>`0x25`<br><br>*resource:*<br>`hurt_animation` | Play | Client | Entity ID | [VarInt](#Type:VarInt) | The ID of the entity taking damage
 ^ | ^ | ^ | Yaw | [Float](#Type:Float) | The direction the damage is coming from in relation to the entity
 
 #### Initialize World Border
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x25`<br><br>*resource:*<br>`initialize_border` | Play | Client | X | [Double](#Type:Double)
+*protocol:*<br>`0x26`<br><br>*resource:*<br>`initialize_border` | Play | Client | X | [Double](#Type:Double)
 ^ | ^ | ^ | Z | [Double](#Type:Double)
 ^ | ^ | ^ | Old Diameter | [Double](#Type:Double) | Current length of a single side of the world border, in meters.
 ^ | ^ | ^ | New Diameter | [Double](#Type:Double) | Target length of a single side of the world border, in meters.
@@ -1640,7 +1653,7 @@ The Notchian server uses a system-dependent time in milliseconds to generate the
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x26`<br><br>*resource:*<br>`keep_alive` | Play | Client | Keep Alive ID | [Long](#Type:Long)
+*protocol:*<br>`0x27`<br><br>*resource:*<br>`keep_alive` | Play | Client | Keep Alive ID | [Long](#Type:Long)
 
 #### Chunk Data and Update Light
 
@@ -1656,7 +1669,7 @@ It is not strictly necessary to send all block entities in this packet; it is st
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x27`<br><br>*resource:*<br>`level_chunk_with_light` | Play | Client | Chunk X | [Int](#Type:Int) | Chunk coordinate (block coordinate divided by 16, rounded down)
+*protocol:*<br>`0x28`<br><br>*resource:*<br>`level_chunk_with_light` | Play | Client | Chunk X | [Int](#Type:Int) | Chunk coordinate (block coordinate divided by 16, rounded down)
 ^ | ^ | ^ | Chunk Z | [Int](#Type:Int) | Chunk coordinate (block coordinate divided by 16, rounded down)
 ^ | ^ | ^ | Heightmaps | [NBT](http://wiki.vg/NBT "NBT") | See [Chunk Format#Heightmaps structure](http://wiki.vg/Chunk_Format#Heightmaps_structure "Chunk Format")
 ^ | ^ | ^ | Size | [VarInt](#Type:VarInt) | Size of Data in bytes
@@ -1690,7 +1703,7 @@ By default, the Minecraft client adjusts the volume of sound effects based on di
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x28`<br><br>*resource:*<br>`level_event` | Play | Client | Event | [Int](#Type:Int) | The event, see below.
+*protocol:*<br>`0x29`<br><br>*resource:*<br>`level_event` | Play | Client | Event | [Int](#Type:Int) | The event, see below.
 ^ | ^ | ^ | Location | [Position](#Type:Position) | The location of the event.
 ^ | ^ | ^ | Data | [Int](#Type:Int) | Extra data for certain events, see below.
 ^ | ^ | ^ | Disable Relative Volume | [Boolean](#Type:Boolean) | See above.
@@ -1781,7 +1794,7 @@ Displays the named particle
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x29`<br><br>*resource:*<br>`level_particles` | Play | Client | Long Distance | [Boolean](#Type:Boolean) | If true, particle distance increases from 256 to 65536.
+*protocol:*<br>`0x2A`<br><br>*resource:*<br>`level_particles` | Play | Client | Long Distance | [Boolean](#Type:Boolean) | If true, particle distance increases from 256 to 65536.
 ^ | ^ | ^ | X | [Double](#Type:Double) | X position of the particle.
 ^ | ^ | ^ | Y | [Double](#Type:Double) | Y position of the particle.
 ^ | ^ | ^ | Z | [Double](#Type:Double) | Z position of the particle.
@@ -1799,7 +1812,7 @@ Updates light levels for a chunk. See [Light](https://minecraft.wiki/w/Light) fo
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x2A`<br><br>*resource:*<br>`light_update` | Play | Client | Chunk X | [VarInt](#Type:VarInt) | Chunk coordinate (block coordinate divided by 16, rounded down)
+*protocol:*<br>`0x2B`<br><br>*resource:*<br>`light_update` | Play | Client | Chunk X | [VarInt](#Type:VarInt) | Chunk coordinate (block coordinate divided by 16, rounded down)
 ^ | ^ | ^ | Chunk Z | [VarInt](#Type:VarInt) | Chunk coordinate (block coordinate divided by 16, rounded down)
 ^ | ^ | ^ | Sky Light Mask | [BitSet](#Type:BitSet) | BitSet containing bits for each section in the world + 2. Each set bit indicates that the corresponding 16×16×16 chunk section has data in the Sky Light array below. The least significant bit is for blocks 16 blocks to 1 block below the min world height (one section below the world), while the most significant bit covers blocks 1 to 16 blocks above the max world height (one section above the world).
 ^ | ^ | ^ | Block Light Mask | [BitSet](#Type:BitSet) | BitSet containing bits for each section in the world + 2. Each set bit indicates that the corresponding 16×16×16 chunk section has data in the Block Light array below. The order of bits is the same as in Sky Light Mask.
@@ -1823,7 +1836,7 @@ See [Protocol Encryption](http://wiki.vg/Protocol_Encryption "Protocol Encryptio
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x2B`<br><br>*resource:*<br>`login` | Play | Client | Entity ID | [Int](#Type:Int) | The player's Entity ID (EID).
+*protocol:*<br>`0x2C`<br><br>*resource:*<br>`login` | Play | Client | Entity ID | [Int](#Type:Int) | The player's Entity ID (EID).
 ^ | ^ | ^ | Is hardcore | [Boolean](#Type:Boolean)
 ^ | ^ | ^ | Dimension Count | [VarInt](#Type:VarInt) | Size of the following array.
 ^ | ^ | ^ | Dimension Names | [Array](#Type:Array) of [Identifier](#Type:Identifier) | Identifiers for all dimensions on the server.
@@ -1853,7 +1866,7 @@ Updates a rectangular area on a [map](https://minecraft.wiki/w/Map) item.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x2C`<br><br>*resource:*<br>`map_item_data` | Play | Client | Map ID | [VarInt](#Type:VarInt) | Map ID of the map being modified
+*protocol:*<br>`0x2D`<br><br>*resource:*<br>`map_item_data` | Play | Client | Map ID | [VarInt](#Type:VarInt) | Map ID of the map being modified
 ^ | ^ | ^ | Scale | [Byte](#Type:Byte) | From 0 for a fully zoomed-in map (1 block per pixel) to 4 for a fully zoomed-out map (16 blocks per pixel)
 ^ | ^ | ^ | Locked | [Boolean](#Type:Boolean) | True if the map has been locked in a cartography table
 ^ | ^ | ^ | Has Icons | [Boolean](#Type:Boolean)
@@ -1911,7 +1924,7 @@ The list of trades a villager NPC is offering.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x2D`<br><br>*resource:*<br>`merchant_offers` | Play | Client | Window ID | [VarInt](#Type:VarInt) | The ID of the window that is open; this is an int rather than a byte.
+*protocol:*<br>`0x2E`<br><br>*resource:*<br>`merchant_offers` | Play | Client | Window ID | [VarInt](#Type:VarInt) | The ID of the window that is open; this is an int rather than a byte.
 ^ | ^ | ^ | Size | [VarInt](#Type:VarInt) | The number of trades in the following array.
 ^ | ^ | ^ | Trades Input item 1 | [Array](#Type:Array) Trade Item | See below. The first item the player has to supply for this villager trade. The count of the item stack is the default "price" of this trade.
 ^ | ^ | ^ | ^ Output item | ^ [Slot](#Type:Slot) | The item the player will receive from this villager trade.
@@ -1952,7 +1965,7 @@ This packet is sent by the server when an entity moves a small distance. The cha
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x2E`<br><br>*resource:*<br>`move_entity_pos` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x2F`<br><br>*resource:*<br>`move_entity_pos` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Delta X | [Short](#Type:Short) | Change in X position as `currentX * 4096 - prevX * 4096`.
 ^ | ^ | ^ | Delta Y | [Short](#Type:Short) | Change in Y position as `currentY * 4096 - prevY * 4096`.
 ^ | ^ | ^ | Delta Z | [Short](#Type:Short) | Change in Z position as `currentZ * 4096 - prevZ * 4096`.
@@ -1964,7 +1977,7 @@ This packet is sent by the server when an entity rotates and moves. See [#Update
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x2F`<br><br>*resource:*<br>`move_entity_pos_rot` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x30`<br><br>*resource:*<br>`move_entity_pos_rot` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Delta X | [Short](#Type:Short) | Change in X position as `currentX * 4096 - prevX * 4096`.
 ^ | ^ | ^ | Delta Y | [Short](#Type:Short) | Change in Y position as `currentY * 4096 - prevY * 4096`.
 ^ | ^ | ^ | Delta Z | [Short](#Type:Short) | Change in Z position as `currentZ * 4096 - prevZ * 4096`.
@@ -1978,7 +1991,7 @@ This packet is sent by the server when an entity rotates.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x30`<br><br>*resource:*<br>`move_entity_rot` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x31`<br><br>*resource:*<br>`move_entity_rot` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Yaw | [Angle](#Type:Angle) | New angle, not a delta.
 ^ | ^ | ^ | Pitch | [Angle](#Type:Angle) | New angle, not a delta.
 ^ | ^ | ^ | On Ground | [Boolean](#Type:Boolean)
@@ -1989,7 +2002,7 @@ Note that all fields use absolute positioning and do not allow for relative posi
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x31`<br><br>*resource:*<br>`move_vehicle` | Play |  Client | X | [Double](#Type:Double) | Absolute position (X coordinate).
+*protocol:*<br>`0x32`<br><br>*resource:*<br>`move_vehicle` | Play |  Client | X | [Double](#Type:Double) | Absolute position (X coordinate).
 ^ | ^ | ^ | Y | [Double](#Type:Double) | Absolute position (Y coordinate).
 ^ | ^ | ^ | Z | [Double](#Type:Double) | Absolute position (Z coordinate).
 ^ | ^ | ^ | Yaw | [Float](#Type:Float) | Absolute rotation on the vertical axis, in degrees.
@@ -2001,7 +2014,7 @@ Sent when a player right clicks with a signed book. This tells the client to ope
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x32`<br><br>*resource:*<br>`open_book` | Play | Client | Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: Main hand, 1: Off hand.
+*protocol:*<br>`0x33`<br><br>*resource:*<br>`open_book` | Play | Client | Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: Main hand, 1: Off hand.
 
 #### Open Screen
 
@@ -2013,7 +2026,7 @@ For horses, use [Open Horse Screen](#Open_Horse_Screen).
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x33`<br><br>*resource:*<br>`open_screen` | Play | Client | Window ID | [VarInt](#Type:VarInt) | An identifier for the window to be displayed. Notchian server implementation is a counter, starting at 1. There can only be one window at a time; this is only used to ignore outdated packets targeting already-closed windows. Note also that the Window ID field in most other packets is only a single byte, and indeed, the Notchian server wraps around after 100.
+*protocol:*<br>`0x34`<br><br>*resource:*<br>`open_screen` | Play | Client | Window ID | [VarInt](#Type:VarInt) | An identifier for the window to be displayed. Notchian server implementation is a counter, starting at 1. There can only be one window at a time; this is only used to ignore outdated packets targeting already-closed windows. Note also that the Window ID field in most other packets is only a single byte, and indeed, the Notchian server wraps around after 100.
 ^ | ^ | ^ | Window Type | [VarInt](#Type:VarInt) | The window type to use for display. Contained in the `minecraft:menu` registry; see [Inventory](http://wiki.vg/Inventory "Inventory") for the different values.
 ^ | ^ | ^ | Window Title | [Text Component](#Type:Text_Component) | The title of the window.
 
@@ -2023,7 +2036,7 @@ Sent when the client has placed a sign and is allowed to send [Update Sign](#Upd
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x34`<br><br>*resource:*<br>`open_sign_editor` | Play | Client | Location | [Position](#Type:Position)
+*protocol:*<br>`0x35`<br><br>*resource:*<br>`open_sign_editor` | Play | Client | Location | [Position](#Type:Position)
 ^ | ^ | ^ | Is Front Text | [Boolean](#Type:Boolean) | Whether the opened editor is for the front or on the back of the sign
 
 #### Ping (play)
@@ -2032,13 +2045,13 @@ Packet is not used by the Notchian server. When sent to the client, client respo
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x35`<br><br>*resource:*<br>`ping` | Play | Client | ID | [Int](#Type:Int)
+*protocol:*<br>`0x36`<br><br>*resource:*<br>`ping` | Play | Client | ID | [Int](#Type:Int)
 
 #### Ping Response (play)
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x36`<br><br>*resource:*<br>`pong_response` | Play | Client | Payload | [Long](#Type:Long) | Should be the same as sent by the client.
+*protocol:*<br>`0x37`<br><br>*resource:*<br>`pong_response` | Play | Client | Payload | [Long](#Type:Long) | Should be the same as sent by the client.
 
 #### Place Ghost Recipe
 
@@ -2046,7 +2059,7 @@ Response to the serverbound packet ([Place Recipe](#Place_Recipe)), with the sam
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x37`<br><br>*resource:*<br>`place_ghost_recipe` | Play | Client | Window ID | [Byte](#Type:Byte)
+*protocol:*<br>`0x38`<br><br>*resource:*<br>`place_ghost_recipe` | Play | Client | Window ID | [Byte](#Type:Byte)
 ^ | ^ | ^ | Recipe | [Identifier](#Type:Identifier) | A recipe ID.
 
 #### Player Abilities (clientbound)
@@ -2055,7 +2068,7 @@ The latter 2 floats are used to indicate the flying speed and field of view resp
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x38`<br><br>*resource:*<br>`player_abilities` | Play | Client | Flags | [Byte](#Type:Byte) | Bit field, see below.
+*protocol:*<br>`0x39`<br><br>*resource:*<br>`player_abilities` | Play | Client | Flags | [Byte](#Type:Byte) | Bit field, see below.
 ^ | ^ | ^ | Flying Speed | [Float](#Type:Float) | 0.05 by default.
 ^ | ^ | ^ | Field of View Modifier | [Float](#Type:Float) | Modifies the field of view, like a speed potion. A Notchian server will use the same value as the movement speed sent in the [Update Attributes](#Update_Attributes) packet, which defaults to 0.1 for players.
 
@@ -2080,7 +2093,7 @@ Currently a lot is unknown about this packet, blank descriptions are for those t
 
 Packet ID | State | Bound To | Sector | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x39`<br><br>*resource:*<br>`player_chat` | Play | Client | Header | Sender | [UUID](#Type:UUID) | Used by the Notchian client for the disableChat launch option. Setting both longs to 0 will always display the message regardless of the setting.
+*protocol:*<br>`0x3A`<br><br>*resource:*<br>`player_chat` | Play | Client | Header | Sender | [UUID](#Type:UUID) | Used by the Notchian client for the disableChat launch option. Setting both longs to 0 will always display the message regardless of the setting.
 ^ | ^ | ^ | ^ | Index | [VarInt](#Type:VarInt) | Message Signature Present | [Boolean](#Type:Boolean) | States if a message signature is present
 ^ | ^ | ^ | ^ | Message Signature bytes | [Optional](#Type:Optional) [Byte Array](#Type:Byte_Array) (256) | Only present if `Message Signature Present` is true. Cryptography, the signature consists of the Sender UUID, Session UUID from the [Player Session](#Player_Session) packet, Index, Salt, Timestamp in epoch seconds, the length of the original chat content, the original content itself, the length of Previous Messages, and all of the Previous message signatures. These values are hashed with [SHA-256](https://en.wikipedia.org/wiki/SHA-2) and signed using the [RSA](https://en.wikipedia.org/wiki/RSA_%28cryptosystem%29) cryptosystem. Modifying any of these values in the packet will cause this signature to fail. This buffer is always 256 bytes long and it is not length-prefixed.
 ^ | ^ | ^ | Body | Message | [String](#Type:String) (256) | Raw (optionally) signed sent message content.<br><br>This is used as the `content` parameter when formatting the message on the client.
@@ -2118,7 +2131,7 @@ Unused by the Notchian client. This data was once used for twitch.tv metadata ci
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x3A`<br><br>*resource:*<br>`player_combat_end` | Play | Client | Duration | [VarInt](#Type:VarInt) | Length of the combat in ticks.
+*protocol:*<br>`0x3B`<br><br>*resource:*<br>`player_combat_end` | Play | Client | Duration | [VarInt](#Type:VarInt) | Length of the combat in ticks.
 
 #### Enter Combat
 
@@ -2126,7 +2139,7 @@ Unused by the Notchian client. This data was once used for twitch.tv metadata ci
 
 Packet ID | State | Bound To | Notes
 --- | --- | --- | ---
-*protocol:*<br>`0x3B`<br><br>*resource:*<br>`player_combat_enter` | Play | Client | No fields.
+*protocol:*<br>`0x3C`<br><br>*resource:*<br>`player_combat_enter` | Play | Client | No fields.
 
 #### Combat Death
 
@@ -2134,7 +2147,7 @@ Used to send a respawn screen.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x3C`<br><br>*resource:*<br>`player_combat_kill` | Play | Client | Player ID | [VarInt](#Type:VarInt) | Entity ID of the player that died (should match the client's entity ID).
+*protocol:*<br>`0x3D`<br><br>*resource:*<br>`player_combat_kill` | Play | Client | Player ID | [VarInt](#Type:VarInt) | Entity ID of the player that died (should match the client's entity ID).
 ^ | ^ | ^ | Message | [Text Component](#Type:Text_Component) | The death message.
 
 #### Player Info Remove
@@ -2143,7 +2156,7 @@ Used by the server to remove players from the player list.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x3D`<br><br>*resource:*<br>`player_info_remove` | Play | Client | Number of Players | [VarInt](#Type:VarInt) | Number of elements in the following array.
+*protocol:*<br>`0x3E`<br><br>*resource:*<br>`player_info_remove` | Play | Client | Number of Players | [VarInt](#Type:VarInt) | Number of elements in the following array.
 ^ | ^ | ^ | Player Player ID | [Array](#Type:Array) of [UUID](#Type:UUID) | UUIDs of players to remove.
 
 #### Player Info Update
@@ -2152,7 +2165,7 @@ Sent by the server to update the user list (&lt;tab&gt; in the client).
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x3E`<br><br>*resource:*<br>`player_info_update` | Play | Client | Actions | [Byte](#Type:Byte) | Determines what actions are present.
+*protocol:*<br>`0x3F`<br><br>*resource:*<br>`player_info_update` | Play | Client | Actions | [Byte](#Type:Byte) | Determines what actions are present.
 ^ | ^ | ^ | Number Of Players | [VarInt](#Type:VarInt) | Number of elements in the following array.
 ^ | ^ | ^ | Players UUID | [Array](#Type:Array) [UUID](#Type:UUID) | The player UUID
 ^ | ^ | ^ | ^ Player Actions | ^ [Array](#Type:Array) of [Player Actions](#player-info:player-actions) | The length of this array is determined by the number of [Player Actions](#player-info:player-actions) that give a non-zero value when applying its mask to the actions flag. For example given the decimal number 5, binary 00000101. The masks 0x01 and 0x04 would return a non-zero value, meaning the Player Actions array would include two actions: Add Player and Update Game Mode.
@@ -2203,7 +2216,7 @@ Used to rotate the client player to face the given location or entity (for `/tel
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x3F`<br><br>*resource:*<br>`player_look_at` | Play | Client | Feet/eyes | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Values are feet=0, eyes=1. If set to eyes, aims using the head position; otherwise aims using the feet position.
+*protocol:*<br>`0x40`<br><br>*resource:*<br>`player_look_at` | Play | Client | Feet/eyes | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Values are feet=0, eyes=1. If set to eyes, aims using the head position; otherwise aims using the feet position.
 ^ | ^ | ^ | Target X | [Double](#Type:Double) | X coordinate of the point to face towards.
 ^ | ^ | ^ | Target Y | [Double](#Type:Double) | Y coordinate of the point to face towards.
 ^ | ^ | ^ | Target Z | [Double](#Type:Double) | Z coordinate of the point to face towards.
@@ -2225,7 +2238,7 @@ Pitch is measured in degrees, where 0 is looking straight ahead, -90 is looking 
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x40`<br><br>*resource:*<br>`player_position` | Play | Client | X | [Double](#Type:Double) | Absolute or relative position, depending on Flags.
+*protocol:*<br>`0x41`<br><br>*resource:*<br>`player_position` | Play | Client | X | [Double](#Type:Double) | Absolute or relative position, depending on Flags.
 ^ | ^ | ^ | Y | [Double](#Type:Double) | Absolute or relative position, depending on Flags.
 ^ | ^ | ^ | Z | [Double](#Type:Double) | Absolute or relative position, depending on Flags.
 ^ | ^ | ^ | Yaw | [Float](#Type:Float) | Absolute or relative rotation on the X axis, in degrees.
@@ -2247,7 +2260,7 @@ X\_ROT (Yaw) | 0x10
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x41`<br><br>*resource:*<br>`recipe` | Play | Client | Action | [VarInt](#Type:VarInt) | 0: init, 1: add, 2: remove.
+*protocol:*<br>`0x42`<br><br>*resource:*<br>`recipe` | Play | Client | Action | [VarInt](#Type:VarInt) | 0: init, 1: add, 2: remove.
 ^ | ^ | ^ | Crafting Recipe Book Open | [Boolean](#Type:Boolean) | If true, then the crafting recipe book will be open when the player opens its inventory.
 ^ | ^ | ^ | Crafting Recipe Book Filter Active | [Boolean](#Type:Boolean) | If true, then the filtering option is active when the players opens its inventory.
 ^ | ^ | ^ | Smelting Recipe Book Open | [Boolean](#Type:Boolean) | If true, then the smelting recipe book will be open when the player opens its inventory.
@@ -2273,14 +2286,14 @@ Sent by the server when an entity is to be destroyed on the client.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x42`<br><br>*resource:*<br>`remove_entities` | Play | Client | Count | [VarInt](#Type:VarInt) | Number of elements in the following array.
+*protocol:*<br>`0x43`<br><br>*resource:*<br>`remove_entities` | Play | Client | Count | [VarInt](#Type:VarInt) | Number of elements in the following array.
 ^ | ^ | ^ | Entity IDs | [Array](#Type:Array) of [VarInt](#Type:VarInt) | The list of entities to destroy.
 
 #### Remove Entity Effect
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x43`<br><br>*resource:*<br>`remove_mob_effect` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x44`<br><br>*resource:*<br>`remove_mob_effect` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Effect ID | [VarInt](#Type:VarInt) | See [this table](https://minecraft.wiki/w/Status_effect%23Effect_list).
 
 #### Reset Score
@@ -2289,7 +2302,7 @@ This is sent to the client when it should remove a scoreboard item.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x44`<br><br>*resource:*<br>`reset_score` | Play | Client | Entity Name | [String](#Type:String) (32767) | The entity whose score this is. For players, this is their username; for other entities, it is their UUID.
+*protocol:*<br>`0x45`<br><br>*resource:*<br>`reset_score` | Play | Client | Entity Name | [String](#Type:String) (32767) | The entity whose score this is. For players, this is their username; for other entities, it is their UUID.
 ^ | ^ | ^ | Has Objective Name | [Boolean](#Type:Boolean) | Whether the score should be removed for the specified objective, or for all of them.
 ^ | ^ | ^ | Objective Name | [Optional](#Type:Optional) [String](#Type:String) (32767) | The name of the objective the score belongs to. Only present if the previous field is true.
 
@@ -2297,14 +2310,14 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x45`<br><br>*resource:*<br>`resource_pack_pop` | Play | Client | Has UUID | [Boolean](#Type:Boolean) | Whether a specific resource pack should be removed, or all of them.
+*protocol:*<br>`0x46`<br><br>*resource:*<br>`resource_pack_pop` | Play | Client | Has UUID | [Boolean](#Type:Boolean) | Whether a specific resource pack should be removed, or all of them.
 ^ | ^ | ^ | UUID | [Optional](#Type:Optional) [UUID](#Type:UUID) | The UUID of the resource pack to be removed. Only present if the previous field is true.
 
 #### Add Resource Pack (play)
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x46`<br><br>*resource:*<br>`resource_pack_push` | Play | Client | UUID | [UUID](#Type:UUID) | The unique identifier of the resource pack.
+*protocol:*<br>`0x47`<br><br>*resource:*<br>`resource_pack_push` | Play | Client | UUID | [UUID](#Type:UUID) | The unique identifier of the resource pack.
 ^ | ^ | ^ | URL | [String](#Type:String) (32767) | The URL to the resource pack.
 ^ | ^ | ^ | Hash | [String](#Type:String) (40) | A 40 character hexadecimal, case-insensitive [SHA-1](http://en.wikipedia.org/wiki/SHA-1 "wikipedia:SHA-1") hash of the resource pack file.<br>If it's not a 40 character hexadecimal string, the client will not use it for hash verification and likely waste bandwidth.
 ^ | ^ | ^ | Forced | [Boolean](#Type:Boolean) | The Notchian client will be forced to use the resource pack from the server. If they decline they will be kicked from the server.
@@ -2320,7 +2333,7 @@ To change the player's dimension (overworld/nether/end), send them a respawn pac
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x47`<br><br>*resource:*<br>`respawn` | Play | Client | Dimension Type | [VarInt](#Type:VarInt) | The ID of type of dimension in the `minecraft:dimension_type` registry, defined by the [Registry Data](http://wiki.vg/Protocol#Registry_Data "Protocol") packet.
+*protocol:*<br>`0x48`<br><br>*resource:*<br>`respawn` | Play | Client | Dimension Type | [VarInt](#Type:VarInt) | The ID of type of dimension in the `minecraft:dimension_type` registry, defined by the [Registry Data](http://wiki.vg/Protocol#Registry_Data "Protocol") packet.
 ^ | ^ | ^ | Dimension Name | [Identifier](#Type:Identifier) | Name of the dimension being spawned into.
 ^ | ^ | ^ | Hashed seed | [Long](#Type:Long) | First 8 bytes of the SHA-256 hash of the world's seed. Used client side for biome noise
 ^ | ^ | ^ | Game mode | [Unsigned Byte](#Type:Unsigned_Byte) | 0: Survival, 1: Creative, 2: Adventure, 3: Spectator.
@@ -2355,7 +2368,7 @@ While sending the Entity Look packet changes the vertical rotation of the head, 
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x48`<br><br>*resource:*<br>`rotate_head` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x49`<br><br>*resource:*<br>`rotate_head` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Head Yaw | [Angle](#Type:Angle) | New angle, not a delta.
 
 #### Update Section Blocks
@@ -2370,7 +2383,7 @@ Fired whenever 2 or more blocks are changed within the same chunk on the same ti
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x49`<br><br>*resource:*<br>`section_blocks_update` | Play | Client | Chunk section position | [Long](#Type:Long) | Chunk section coordinate (encoded chunk x and z with each 22 bits, and section y with 20 bits, from left to right).
+*protocol:*<br>`0x4A`<br><br>*resource:*<br>`section_blocks_update` | Play | Client | Chunk section position | [Long](#Type:Long) | Chunk section coordinate (encoded chunk x and z with each 22 bits, and section y with 20 bits, from left to right).
 ^ | ^ | ^ | Blocks array size | [VarInt](#Type:VarInt) | Number of elements in the following array.
 ^ | ^ | ^ | Blocks | [Array](#Type:Array) of [VarLong](#Type:VarLong) | Each entry is composed of the block state ID, shifted left by 12, and the relative block position in the chunk section (4 bits for x, z, and y, from left to right).
 
@@ -2410,7 +2423,7 @@ Sent by the server to indicate that the client should switch advancement tab. Se
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x4A`<br><br>*resource:*<br>`select_advancements_tab` | Play | Client | Has ID | [Boolean](#Type:Boolean) | Indicates if the next field is present.
+*protocol:*<br>`0x4B`<br><br>*resource:*<br>`select_advancements_tab` | Play | Client | Has ID | [Boolean](#Type:Boolean) | Indicates if the next field is present.
 ^ | ^ | ^ | Identifier | [Optional](#Type:Optional) [Identifier](#Type:Identifier) | See below.
 
 The [Identifier](#Type:Identifier) can be one of the following:
@@ -2427,7 +2440,7 @@ If no or an invalid identifier is sent, the client will switch to the first tab 
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x4B`<br><br>*resource:*<br>`server_data` | Play | Client | MOTD | [Text Component](#Type:Text_Component)
+*protocol:*<br>`0x4C`<br><br>*resource:*<br>`server_data` | Play | Client | MOTD | [Text Component](#Type:Text_Component)
 ^ | ^ | ^ | Has Icon | [Boolean](#Type:Boolean)
 ^ | ^ | ^ | Size | [Optional](#Type:Optional) [VarInt](#Type:VarInt) | Number of bytes in the following array. Only present if Has Icon is true.
 ^ | ^ | ^ | Icon | [Optional](#Type:Optional) [Byte Array](#Type:Byte_Array) | Icon bytes in the PNG format. Only present is Has Icon is true.
@@ -2438,20 +2451,20 @@ Displays a message above the hotbar. Equivalent to [System Chat Message](#System
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x4C`<br><br>*resource:*<br>`set_action_bar_text` | Play | Client | Action bar text | [Text Component](#Type:Text_Component)
+*protocol:*<br>`0x4D`<br><br>*resource:*<br>`set_action_bar_text` | Play | Client | Action bar text | [Text Component](#Type:Text_Component)
 
 #### Set Border Center
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x4D`<br>*resource:*<br>`set_border_center` | Play | Client | X | [Double](#Type:Double)
+*protocol:*<br>`0x4E`<br>*resource:*<br>`set_border_center` | Play | Client | X | [Double](#Type:Double)
 ^ | ^ | ^ | Z | [Double](#Type:Double)
 
 #### Set Border Lerp Size
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x4E`<br><br>*resource:*<br>`set_border_lerp_size` | Play | Client | Old Diameter | [Double](#Type:Double) | Current length of a single side of the world border, in meters.
+*protocol:*<br>`0x4F`<br><br>*resource:*<br>`set_border_lerp_size` | Play | Client | Old Diameter | [Double](#Type:Double) | Current length of a single side of the world border, in meters.
 ^ | ^ | ^ | New Diameter | [Double](#Type:Double) | Target length of a single side of the world border, in meters.
 ^ | ^ | ^ | Speed | [VarLong](#Type:VarLong) | Number of real-time *milli*seconds until New Diameter is reached. It appears that Notchian server does not sync world border speed to game ticks, so it gets out of sync with server lag. If the world border is not moving, this is set to 0.
 
@@ -2459,19 +2472,19 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x4F`<br><br>*resource:*<br>`set_border_size` | Play | Client | Diameter | [Double](#Type:Double) | Length of a single side of the world border, in meters.
+*protocol:*<br>`0x50`<br><br>*resource:*<br>`set_border_size` | Play | Client | Diameter | [Double](#Type:Double) | Length of a single side of the world border, in meters.
 
 #### Set Border Warning Delay
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x50`<br><br>*resource:*<br>`set_border_warning_delay` | Play | Client | Warning Time | [VarInt](#Type:VarInt) | In seconds as set by `/worldborder warning time`.
+*protocol:*<br>`0x51`<br><br>*resource:*<br>`set_border_warning_delay` | Play | Client | Warning Time | [VarInt](#Type:VarInt) | In seconds as set by `/worldborder warning time`.
 
 #### Set Border Warning Distance
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x51`<br><br>*resource:*<br>`set_border_warning_distance` | Play | Client | Warning Blocks | [VarInt](#Type:VarInt) | In meters.
+*protocol:*<br>`0x52`<br><br>*resource:*<br>`set_border_warning_distance` | Play | Client | Warning Blocks | [VarInt](#Type:VarInt) | In meters.
 
 #### Set Camera
 
@@ -2485,7 +2498,7 @@ The Notchian server resets this (sends it back to the default entity) whenever t
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x52`<br><br>*resource:*<br>`set_camera` | Play | Client | Camera ID | [VarInt](#Type:VarInt) | ID of the entity to set the client's camera to.
+*protocol:*<br>`0x53`<br><br>*resource:*<br>`set_camera` | Play | Client | Camera ID | [VarInt](#Type:VarInt) | ID of the entity to set the client's camera to.
 
 The notchian client also loads certain shaders for given entities:
 
@@ -2500,7 +2513,7 @@ Sent to change the player's slot selection.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x53`<br><br>*resource:*<br>`set_carried_item` | Play | Client | Slot | [Byte](#Type:Byte) | The slot which the player has selected (0–8).
+*protocol:*<br>`0x54`<br><br>*resource:*<br>`set_carried_item` | Play | Client | Slot | [Byte](#Type:Byte) | The slot which the player has selected (0–8).
 
 #### Set Center Chunk
 
@@ -2514,7 +2527,7 @@ The Notchian server sends this packet whenever the player moves across a chunk b
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x54`<br><br>*resource:*<br>`set_chunk_cache_center` | Play | Client | Chunk X | [VarInt](#Type:VarInt) | Chunk X coordinate of the loading area center.
+*protocol:*<br>`0x55`<br><br>*resource:*<br>`set_chunk_cache_center` | Play | Client | Chunk X | [VarInt](#Type:VarInt) | Chunk X coordinate of the loading area center.
 ^ | ^ | ^ | Chunk Z | [VarInt](#Type:VarInt) | Chunk Z coordinate of the loading area center.
 
 #### Set Render Distance
@@ -2523,7 +2536,7 @@ Sent by the integrated singleplayer server when changing render distance. This p
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x55`<br><br>*resource:*<br>`set_chunk_cache_radius` | Play | Client | View Distance | [VarInt](#Type:VarInt) | Render distance (2-32).
+*protocol:*<br>`0x56`<br><br>*resource:*<br>`set_chunk_cache_radius` | Play | Client | View Distance | [VarInt](#Type:VarInt) | Render distance (2-32).
 
 #### Set Default Spawn Position
 
@@ -2535,7 +2548,7 @@ Before receiving this packet, the client uses the default position 8, 64, 8, and
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x56`<br><br>*resource:*<br>`set_default_spawn_position` | Play | Client | Location | [Position](#Type:Position) | Spawn location.
+*protocol:*<br>`0x57`<br><br>*resource:*<br>`set_default_spawn_position` | Play | Client | Location | [Position](#Type:Position) | Spawn location.
 ^ | ^ | ^ | Angle | [Float](#Type:Float) | The angle at which to respawn at.
 
 #### Display Objective
@@ -2544,7 +2557,7 @@ This is sent to the client when it should display a scoreboard.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x57`<br><br>*resource:*<br>`set_display_objective` | Play | Client | Position | [VarInt](#Type:VarInt) | The position of the scoreboard. 0: list, 1: sidebar, 2: below name, 3 - 18: team specific sidebar, indexed as 3 + team color.
+*protocol:*<br>`0x58`<br><br>*resource:*<br>`set_display_objective` | Play | Client | Position | [VarInt](#Type:VarInt) | The position of the scoreboard. 0: list, 1: sidebar, 2: below name, 3 - 18: team specific sidebar, indexed as 3 + team color.
 ^ | ^ | ^ | Score Name | [String](#Type:String) (32767) | The unique name for the scoreboard to be displayed.
 
 #### Set Entity Metadata
@@ -2553,7 +2566,7 @@ Updates one or more [metadata](http://wiki.vg/Entity_metadata#Entity_Metadata_Fo
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x58`<br><br>*resource:*<br>`set_entity_data` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x59`<br><br>*resource:*<br>`set_entity_data` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Metadata | [Entity Metadata](http://wiki.vg/Entity_metadata#Entity_Metadata_Format "Entity metadata")
 
 #### Link Entities
@@ -2562,7 +2575,7 @@ This packet is sent when an entity has been [leashed](https://minecraft.wiki/w/L
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x59`<br><br>*resource:*<br>`set_entity_link` | Play | Client | Attached Entity ID | [Int](#Type:Int) | Attached entity's EID.
+*protocol:*<br>`0x5A`<br><br>*resource:*<br>`set_entity_link` | Play | Client | Attached Entity ID | [Int](#Type:Int) | Attached entity's EID.
 ^ | ^ | ^ | Holding Entity ID | [Int](#Type:Int) | ID of the entity holding the lead. Set to -1 to detach.
 
 #### Set Entity Velocity
@@ -2571,7 +2584,7 @@ Velocity is in units of 1/8000 of a block per server tick (50ms); for example, -
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x5A`<br><br>*resource:*<br>`set_entity_motion` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x5B`<br><br>*resource:*<br>`set_entity_motion` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Velocity X | [Short](#Type:Short) | Velocity on the X axis.
 ^ | ^ | ^ | Velocity Y | [Short](#Type:Short) | Velocity on the Y axis.
 ^ | ^ | ^ | Velocity Z | [Short](#Type:Short) | Velocity on the Z axis.
@@ -2580,7 +2593,7 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x5B`<br><br>*resource:*<br>`set_equipment` | Play | Client | Entity ID | [VarInt](#Type:VarInt) | Entity's ID.
+*protocol:*<br>`0x5C`<br><br>*resource:*<br>`set_equipment` | Play | Client | Entity ID | [VarInt](#Type:VarInt) | Entity's ID.
 ^ | ^ | ^ | Equipment Slot | [Array](#Type:Array) [Byte](#Type:Byte) [Enum](#Type:Enum) | Equipment slot (see below). Also has the top bit set if another entry follows, and otherwise unset if this is the last item in the array.
 ^ | ^ | ^ | ^ Item | ^ [Slot](#Type:Slot)
 
@@ -2602,7 +2615,7 @@ Sent by the server when the client should change experience levels.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x5C`<br><br>*resource:*<br>`set_experience` | Play | Client | Experience bar | [Float](#Type:Float) | Between 0 and 1.
+*protocol:*<br>`0x5D`<br><br>*resource:*<br>`set_experience` | Play | Client | Experience bar | [Float](#Type:Float) | Between 0 and 1.
 ^ | ^ | ^ | Level | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Total Experience | [VarInt](#Type:VarInt) | See [Experience#Leveling up](https://minecraft.wiki/w/Experience%23Leveling_up) on the Minecraft Wiki for Total Experience to Level conversion.
 
@@ -2614,7 +2627,7 @@ Food [saturation](https://minecraft.wiki/w/Food%23Hunger_and_saturation) acts as
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x5D`<br><br>*resource:*<br>`set_health` | Play | Client | Health | [Float](#Type:Float) | 0 or less = dead, 20 = full HP.
+*protocol:*<br>`0x5E`<br><br>*resource:*<br>`set_health` | Play | Client | Health | [Float](#Type:Float) | 0 or less = dead, 20 = full HP.
 ^ | ^ | ^ | Food | [VarInt](#Type:VarInt) | 0–20.
 ^ | ^ | ^ | Food Saturation | [Float](#Type:Float) | Seems to vary from 0.0 to 5.0 in integer increments.
 
@@ -2624,7 +2637,7 @@ This is sent to the client when it should create a new [scoreboard](https://mine
 
 Packet ID | State | Bound To | Number Format | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x5E`<br><br>*resource:*<br>`set_objective` | Play | Client | N/A | Objective Name | [String](#Type:String) (32767) | A unique name for the objective.
+*protocol:*<br>`0x5F`<br><br>*resource:*<br>`set_objective` | Play | Client | N/A | Objective Name | [String](#Type:String) (32767) | A unique name for the objective.
 ^ | ^ | ^ | N/A | Mode | [Byte](#Type:Byte) | 0 to create the scoreboard. 1 to remove the scoreboard. 2 to update the display text.
 ^ | ^ | ^ | N/A | Objective Value | [Optional](#Type:Optional) [Text Component](#Type:Text_Component) | Only if mode is 0 or 2.The text to be displayed for the score.
 ^ | ^ | ^ | N/A | Type | [Optional](#Type:Optional) [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Only if mode is 0 or 2. 0 = "integer", 1 = "hearts".
@@ -2638,7 +2651,7 @@ Packet ID | State | Bound To | Number Format | Field Name | Field Type | Notes
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x5F`<br><br>*resource:*<br>`set_passengers` | Play | Client | Entity ID | [VarInt](#Type:VarInt) | Vehicle's EID.
+*protocol:*<br>`0x60`<br><br>*resource:*<br>`set_passengers` | Play | Client | Entity ID | [VarInt](#Type:VarInt) | Vehicle's EID.
 ^ | ^ | ^ | Passenger Count | [VarInt](#Type:VarInt) | Number of elements in the following array.
 ^ | ^ | ^ | Passengers | [Array](#Type:Array) of [VarInt](#Type:VarInt) | EIDs of entity's passengers.
 
@@ -2648,7 +2661,7 @@ Creates and updates teams.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x60`<br><br>*resource:*<br>`set_player_team` | Play | Client | Team Name | [String](#Type:String) (32767) | A unique name for the team. (Shared with scoreboard).
+*protocol:*<br>`0x61`<br><br>*resource:*<br>`set_player_team` | Play | Client | Team Name | [String](#Type:String) (32767) | A unique name for the team. (Shared with scoreboard).
 ^ | ^ | ^ | Method | [Byte](#Type:Byte) | Determines the layout of the remaining packet.
 ^ | ^ | ^ | 0: create team Team Display Name | [Text Component](#Type:Text_Component)
 ^ | ^ | ^ | ^ Friendly Flags | [Byte](#Type:Byte) | Bit mask. 0x01: Allow friendly fire, 0x02: can see invisible players on same team.
@@ -2690,7 +2703,7 @@ This is sent to the client when it should update a scoreboard item.
 
 Packet ID | State | Bound To | Number Format | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x61`<br><br>*resource:*<br>`set_score` | Play | Client | N/A | Entity Name | [String](#Type:String) (32767) | The entity whose score this is. For players, this is their username; for other entities, it is their UUID.
+*protocol:*<br>`0x62`<br><br>*resource:*<br>`set_score` | Play | Client | N/A | Entity Name | [String](#Type:String) (32767) | The entity whose score this is. For players, this is their username; for other entities, it is their UUID.
 ^ | ^ | ^ | N/A | Objective Name | [String](#Type:String) (32767) | The name of the objective the score belongs to.
 ^ | ^ | ^ | N/A | Value | [VarInt](#Type:VarInt) | The score to be displayed next to the entry.
 ^ | ^ | ^ | N/A | Has Display Name | [Boolean](#Type:Boolean) | Whether this score has a custom display name.
@@ -2705,13 +2718,13 @@ Packet ID | State | Bound To | Number Format | Field Name | Field Type | Notes
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x62`<br><br>*resource:*<br>`set_simulation_distance` | Play | Client | Simulation Distance | [VarInt](#Type:VarInt) | The distance that the client will process specific things, such as entities.
+*protocol:*<br>`0x63`<br><br>*resource:*<br>`set_simulation_distance` | Play | Client | Simulation Distance | [VarInt](#Type:VarInt) | The distance that the client will process specific things, such as entities.
 
 #### Set Subtitle Text
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x63`<br><br>*resource:*<br>`set_subtitle_text` | Play | Client | Subtitle Text | [Text Component](#Type:Text_Component)
+*protocol:*<br>`0x64`<br><br>*resource:*<br>`set_subtitle_text` | Play | Client | Subtitle Text | [Text Component](#Type:Text_Component)
 
 #### Update Time
 
@@ -2723,20 +2736,20 @@ The default SMP server increments the time by `20` every second.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x64`<br><br>*resource:*<br>`set_time` | Play | Client | World Age | [Long](#Type:Long) | In ticks; not changed by server commands.
+*protocol:*<br>`0x65`<br><br>*resource:*<br>`set_time` | Play | Client | World Age | [Long](#Type:Long) | In ticks; not changed by server commands.
 ^ | ^ | ^ | Time of day | [Long](#Type:Long) | The world (or region) time, in ticks. If negative the sun will stop moving at the Math.abs of the time.
 
 #### Set Title Text
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x65`<br><br>*resource:*<br>`set_title_text` | Play | Client | Title Text | [Text Component](#Type:Text_Component)
+*protocol:*<br>`0x66`<br><br>*resource:*<br>`set_title_text` | Play | Client | Title Text | [Text Component](#Type:Text_Component)
 
 #### Set Title Animation Times
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x66`<br><br>*resource:*<br>`set_titles_animation` | Play | Client | Fade In | [Int](#Type:Int) | Ticks to spend fading in.
+*protocol:*<br>`0x67`<br><br>*resource:*<br>`set_titles_animation` | Play | Client | Fade In | [Int](#Type:Int) | Ticks to spend fading in.
 ^ | ^ | ^ | Stay | [Int](#Type:Int) | Ticks to keep the title displayed.
 ^ | ^ | ^ | Fade Out | [Int](#Type:Int) | Ticks to spend fading out, not when to start fading out.
 
@@ -2752,7 +2765,7 @@ Plays a sound effect from an entity, either by hardcoded ID or Identifier. Sound
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x67`<br><br>*resource:*<br>`sound_entity` | Play | Client | Sound Event | [ID or](#Type:ID_or) [Sound Event](#Type:Sound_Event) | ID in the `minecraft:sound_event` registry, or an inline definition.
+*protocol:*<br>`0x68`<br><br>*resource:*<br>`sound_entity` | Play | Client | Sound Event | [ID or](#Type:ID_or) [Sound Event](#Type:Sound_Event) | ID in the `minecraft:sound_event` registry, or an inline definition.
 ^ | ^ | ^ | Sound Category | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The category that this sound will be played from ([current categories](https://gist.github.com/konwboj/7c0c380d3923443e9d55)).
 ^ | ^ | ^ | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Volume | [Float](#Type:Float) | 1.0 is 100%, capped between 0.0 and 1.0 by Notchian clients.
@@ -2771,7 +2784,7 @@ Plays a sound effect at the given location, either by hardcoded ID or Identifier
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x68`<br><br>*resource:*<br>`sound` | Play | Client | Sound Event | [ID or](#Type:ID_or) [Sound Event](#Type:Sound_Event) | ID in the `minecraft:sound_event` registry, or an inline definition.
+*protocol:*<br>`0x69`<br><br>*resource:*<br>`sound` | Play | Client | Sound Event | [ID or](#Type:ID_or) [Sound Event](#Type:Sound_Event) | ID in the `minecraft:sound_event` registry, or an inline definition.
 ^ | ^ | ^ | Sound Category | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The category that this sound will be played from ([current categories](https://gist.github.com/konwboj/7c0c380d3923443e9d55)).
 ^ | ^ | ^ | Effect Position X | [Int](#Type:Int) | Effect X multiplied by 8 ([fixed-point number](http://wiki.vg/Data_types#Fixed-point_numbers "Data types") with only 3 bits dedicated to the fractional part).
 ^ | ^ | ^ | Effect Position Y | [Int](#Type:Int) | Effect Y multiplied by 8 ([fixed-point number](http://wiki.vg/Data_types#Fixed-point_numbers "Data types") with only 3 bits dedicated to the fractional part).
@@ -2786,7 +2799,7 @@ Sent during gameplay in order to redo the configuration process. The client must
 
 Packet ID | State | Bound To | Notes
 --- | --- | --- | ---
-*protocol:*<br>`0x69`<br><br>*resource:*<br>`start_configuration` | Play | Client | No fields.
+*protocol:*<br>`0x6A`<br><br>*resource:*<br>`start_configuration` | Play | Client | No fields.
 
 This packet switches the connection state to [configuration](#Configuration).
 
@@ -2794,7 +2807,7 @@ This packet switches the connection state to [configuration](#Configuration).
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x6A`<br><br>*resource:*<br>`stop_sound` | Play | Client | Flags | [Byte](#Type:Byte) | Controls which fields are present.
+*protocol:*<br>`0x6B`<br><br>*resource:*<br>`stop_sound` | Play | Client | Flags | [Byte](#Type:Byte) | Controls which fields are present.
 ^ | ^ | ^ | Source | [Optional](#Type:Optional) [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Only if flags is 3 or 1 (bit mask 0x1). See below. If not present, then sounds from all sources are cleared.
 ^ | ^ | ^ | Sound | [Optional](#Type:Optional) [Identifier](#Type:Identifier) | Only if flags is 2 or 3 (bit mask 0x2). A sound effect name, see [Custom Sound Effect](#Custom_Sound_Effect). If not present, then all sounds are cleared.
 
@@ -2819,7 +2832,7 @@ Stores some arbitrary data on the client, which persists between server transfer
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x6B`<br>*resource:*<br>`store_cookie` | Play | Client | Key | [Identifier](#Type:Identifier) | The identifier of the cookie.
+*protocol:*<br>`0x6C`<br>*resource:*<br>`store_cookie` | Play | Client | Key | [Identifier](#Type:Identifier) | The identifier of the cookie.
 ^ | ^ | ^ | Payload Length | [VarInt](#Type:VarInt) | Length of the following byte array.
 ^ | ^ | ^ | Payload | [Byte Array](#Type:Byte_Array) (5120) | The data of the cookie.
 
@@ -2831,7 +2844,7 @@ Sends the client a raw system message.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x6C`<br><br>*resource:*<br>`system_chat` | Play | Client | Content | [Text Component](#Type:Text_Component) | Limited to 262144 bytes.
+*protocol:*<br>`0x6D`<br><br>*resource:*<br>`system_chat` | Play | Client | Content | [Text Component](#Type:Text_Component) | Limited to 262144 bytes.
 ^ | ^ | ^ | Overlay | [Boolean](#Type:Boolean) | Whether the message is an actionbar or chat message. See also [#Set Action Bar Text](#Set_Action_Bar_Text).
 
 #### Set Tab List Header And Footer
@@ -2840,7 +2853,7 @@ This packet may be used by custom servers to display additional information abov
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x6D`*resource:*<br>`tab_list` | Play | Client | Header | [Text Component](#Type:Text_Component) | To remove the header, send a empty text component: `{"text":""}`.
+*protocol:*<br>`0x6E`*resource:*<br>`tab_list` | Play | Client | Header | [Text Component](#Type:Text_Component) | To remove the header, send a empty text component: `{"text":""}`.
 ^ | ^ | ^ | Footer | [Text Component](#Type:Text_Component) | To remove the footer, send a empty text component: `{"text":""}`.
 
 #### Tag Query Response
@@ -2849,7 +2862,7 @@ Sent in response to [Query Block Entity Tag](#Query_Block_Entity_Tag) or [Query 
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x6E`<br><br>*resource:*<br>`tag_query` | Play | Client | Transaction ID | [VarInt](#Type:VarInt) | Can be compared to the one sent in the original query packet.
+*protocol:*<br>`0x6F`<br><br>*resource:*<br>`tag_query` | Play | Client | Transaction ID | [VarInt](#Type:VarInt) | Can be compared to the one sent in the original query packet.
 ^ | ^ | ^| NBT | [NBT](#Type:NBT) | The NBT of the block or entity. May be a TAG\_END (0) in which case no NBT is present.
 
 #### Pickup Item
@@ -2858,7 +2871,7 @@ Sent by the server when someone picks up an item lying on the ground — its sol
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x6F`<br><br>*resource:*<br>`take_item_entity` | Play | Client | Collected Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x70`<br><br>*resource:*<br>`take_item_entity` | Play | Client | Collected Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Collector Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Pickup Item Count | [VarInt](#Type:VarInt) | Seems to be 1 for XP orbs, otherwise the number of items in the stack.
 
@@ -2868,7 +2881,7 @@ This packet is sent by the server when an entity moves more than 8 blocks.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x70`<br><br>*resource:*<br>`teleport_entity` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x71`<br><br>*resource:*<br>`teleport_entity` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | X | [Double](#Type:Double)
 ^ | ^ | ^ | Y | [Double](#Type:Double)
 ^ | ^ | ^ | Z | [Double](#Type:Double)
@@ -2882,7 +2895,7 @@ Used to adjust the ticking rate of the client, and whether it's frozen.
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x71`<br><br>*resource:*<br>`ticking_state` | Play | Client | Tick rate | [Float](#Type:Float)
+*protocol:*<br>`0x72`<br><br>*resource:*<br>`ticking_state` | Play | Client | Tick rate | [Float](#Type:Float)
 ^ | ^ | ^ | Is frozen | [Boolean](#Type:Boolean)
 
 #### Step Tick
@@ -2891,7 +2904,7 @@ Advances the client processing by the specified number of ticks. Has no effect u
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x72`<br><br>*resource:*<br>`ticking_step` | Play | Client | Tick steps | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x73`<br><br>*resource:*<br>`ticking_step` | Play | Client | Tick steps | [VarInt](#Type:VarInt)
 
 #### Transfer (play)
 
@@ -2899,14 +2912,14 @@ Notifies the client that it should transfer to the given server. Cookies previou
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x73`<br><br>*resource:*<br>`transfer` | Play | Client | Host | [String](#Type:String) | The hostname of IP of the server.
+*protocol:*<br>`0x74`<br><br>*resource:*<br>`transfer` | Play | Client | Host | [String](#Type:String) | The hostname of IP of the server.
 ^ | ^ | ^ | Port | [VarInt](#Type:VarInt) | The port of the server.
 
 #### Update Advancements
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x74`<br><br>*resource:*<br>`update_advancements` | Play | Client | Reset/Clear | [Boolean](#Type:Boolean) | Whether to reset/clear the current advancements.
+*protocol:*<br>`0x75`<br><br>*resource:*<br>`update_advancements` | Play | Client | Reset/Clear | [Boolean](#Type:Boolean) | Whether to reset/clear the current advancements.
 ^ | ^ | ^ | Mapping size | [VarInt](#Type:VarInt) | Size of the following array.
 ^ | ^ | ^ | Advancement mapping Key | [Array](#Type:Array) [Identifier](#Type:Identifier) | The identifier of the advancement.
 ^ | ^ | ^ | ^ Value | ^ Advancement | See below
@@ -2965,7 +2978,7 @@ Sets [attributes](https://minecraft.wiki/w/Attribute) on the given entity.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x75`<br>*resource:*<br>`update_attributes` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x76`<br>*resource:*<br>`update_attributes` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Number Of Properties | [VarInt](#Type:VarInt) | Number of elements in the following array.
 ^ | ^ | ^ | Property ID | [Array](#Type:Array) [VarInt](#Type:VarInt) [Enum](#Type:Enum) | See below.
 ^ | ^ | ^ | ^ Value | ^ [Double](#Type:Double) | See below.
@@ -3022,7 +3035,7 @@ All of the 0's are applied first, and then the 1's, and then the 2's.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x76`<br><br>*resource:*<br>`update_mob_effect` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x77`<br><br>*resource:*<br>`update_mob_effect` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Effect ID | [VarInt](#Type:VarInt) | See [this table](https://minecraft.wiki/w/Status_effect%23Effect_list).
 ^ | ^ | ^ | Amplifier | [VarInt](#Type:VarInt) | Notchian client displays effect level as Amplifier + 1.
 ^ | ^ | ^ | Duration | [VarInt](#Type:VarInt) | Duration in ticks. (-1 for infinite)
@@ -3042,7 +3055,7 @@ Within flags:
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x77`<br><br>*resource:*<br>`update_recipes` | Play | Client | Num Recipes | [VarInt](#Type:VarInt) | Number of elements in the following array.
+*protocol:*<br>`0x78`<br><br>*resource:*<br>`update_recipes` | Play | Client | Num Recipes | [VarInt](#Type:VarInt) | Number of elements in the following array.
 ^ | ^ | ^ | Recipe Recipe ID | [Array](#Type:Array) [Identifier](#Type:Identifier)
 ^ | ^ | ^ | ^ Type ID | ^ [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The recipe type, see below.
 ^ | ^ | ^ | ^ Data | ^ Varies | Additional data for the recipe.
@@ -3108,7 +3121,7 @@ Items | [Array](#Type:Array) of [Slot](#Type:Slot) | Any item in this array may 
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x78`<br><br>*resource:*<br>`update_tags` | Play | Client | Length of the array | [VarInt](#Type:VarInt) | Array of tags
+*protocol:*<br>`0x79`<br><br>*resource:*<br>`update_tags` | Play | Client | Length of the array | [VarInt](#Type:VarInt) | Array of tags
 ^ | ^ | ^ | Registry | [Array](#Type:Array) [Identifier](#Type:Identifier) | Registry identifier (Vanilla expects tags for the registries `minecraft:block`, `minecraft:item`, `minecraft:fluid`, `minecraft:entity_type`, and `minecraft:game_event`)
 ^ | ^ | ^ | ^ Array of Tag | ^ (See below)
 
@@ -3127,7 +3140,7 @@ See [Tag](https://minecraft.wiki/w/Tag) on the Minecraft Wiki for more informati
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x79`<br><br>*resource:*<br>`projectile_power` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
+*protocol:*<br>`0x7A`<br><br>*resource:*<br>`projectile_power` | Play | Client | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Power | [Double](#Type:Double)
 
 #### Custom Report Details
@@ -3136,7 +3149,7 @@ Contains a list of key-value text entries that are included in any crash or disc
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x7A`<br><br>*resource:*<br>`custom_report_details` | Play | Client | Details Count | [VarInt](#Type:VarInt) (32) | The number of details in the following array.
+*protocol:*<br>`0x7B`<br><br>*resource:*<br>`custom_report_details` | Play | Client | Details Count | [VarInt](#Type:VarInt) (32) | The number of details in the following array.
 ^ | ^ | ^ | Details Title | [Array](#Type:Array) [String](#Type:String) (128)
 ^ | ^ | ^ | ^ Description | ^ [String](#Type:String) (4096)
 
@@ -3146,7 +3159,7 @@ This packet contains a list of links that the Notchian client will display in th
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-*protocol:*<br>`0x7B`<br><br>*resource:*<br>`server_links` | Play | Client | Links Count | [VarInt](#Type:VarInt) | The number of links in the following array.
+*protocol:*<br>`0x7C`<br><br>*resource:*<br>`server_links` | Play | Client | Links Count | [VarInt](#Type:VarInt) | The number of links in the following array.
 ^ | ^ | ^ | Links Is built-in | [Array](#Type:Array) [Boolean](#Type:Boolean) | Determines if the following label is built-in (from enum) or custom (text component).
 ^ | ^ | ^ | ^ Label | ^ [VarInt](#Type:VarInt) [Enum](#Type:Enum) / [Text Component](#Type:Text_Component) | See below.
 ^ | ^ | ^ | ^ URL | ^ [String](#Type:String) | Valid URL.
@@ -3276,13 +3289,17 @@ Action ID | Action | Notes
 
 Sent when the client finishes processing its current tick.
 
+Packet ID | State | Bound To | Notes
+--- | --- | --- | ---
+0x0A | Play | Server | No fields.
+
 #### Client Information (play)
 
 Sent when the player connects, or when settings are changed.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x0A | Play | Server | Locale | [String](#Type:String) (16) | e.g. `en_GB`.
+0x0B | Play | Server | Locale | [String](#Type:String) (16) | e.g. `en_GB`.
 ^ | ^ | ^ | View Distance | [Byte](#Type:Byte) | Client-side render distance, in chunks.
 ^ | ^ | ^ | Chat Mode | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: enabled, 1: commands only, 2: hidden. See [Chat#Client chat mode](http://wiki.vg/Chat#Client_chat_mode "Chat") for more information.
 ^ | ^ | ^ | Chat Colors | [Boolean](#Type:Boolean) | “Colors” multiplayer setting. The Notchian server stores this value but does nothing with it (see [MC-64867](https://bugs.mojang.com/browse/MC-64867)). Third-party servers such as Hypixel disable all coloring in chat and system messages when it is false.
@@ -3310,7 +3327,7 @@ Sent when the client needs to tab-complete a `minecraft:ask_server` suggestion t
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x0B | Play | Server | Transaction ID | [VarInt](#Type:VarInt) | The ID of the transaction that the server will send back to the client in the response of this packet. Client generates this and increments it each time it sends another tab completion that doesn't get a response.
+0x0C | Play | Server | Transaction ID | [VarInt](#Type:VarInt) | The ID of the transaction that the server will send back to the client in the response of this packet. Client generates this and increments it each time it sends another tab completion that doesn't get a response.
 ^ | ^ | ^ | Text | [String](#Type:String) (32500) | All text behind the cursor without the `/` (e.g. to the left of the cursor in left-to-right languages like English).
 
 #### Acknowledge Configuration
@@ -3319,7 +3336,7 @@ Sent by the client upon receiving a [Start Configuration](#Start_Configuration) 
 
 Packet ID | State | Bound To | Notes
 --- | --- | --- | ---
-0x0C | Play | Server | No fields.
+0x0D | Play | Server | No fields.
 
 This packet switches the connection state to [configuration](#Configuration).
 
@@ -3329,7 +3346,7 @@ Used when clicking on window buttons. Until 1.14, this was only used by enchantm
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x0D | Play | Server | Window ID | [Byte](#Type:Byte) | The ID of the window sent by [Open Screen](#Open_Screen).
+0x0E | Play | Server | Window ID | [Byte](#Type:Byte) | The ID of the window sent by [Open Screen](#Open_Screen).
 ^ | ^ | ^ | Button ID | [Byte](#Type:Byte) | Meaning depends on window type; see below.
 
 Window type | ID | Meaning
@@ -3350,7 +3367,7 @@ This packet is sent by the client when the player clicks on a slot in a window.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x0E | Play | Server | Window ID | [Unsigned Byte](#Type:Unsigned_Byte) | The ID of the window which was clicked. 0 for player inventory. The server ignores any packets targeting a Window ID other than the current one, including ignoring 0 when any other window is open.
+0x0F | Play | Server | Window ID | [Unsigned Byte](#Type:Unsigned_Byte) | The ID of the window which was clicked. 0 for player inventory. The server ignores any packets targeting a Window ID other than the current one, including ignoring 0 when any other window is open.
 ^ | ^ | ^ | State ID | [VarInt](#Type:VarInt) | The last received State ID from either a [Set Container Slot](#Set_Container_Slot) or a [Set Container Content](#Set_Container_Content) packet.
 ^ | ^ | ^ | Slot | [Short](#Type:Short) | The clicked slot number, see below.
 ^ | ^ | ^ | Button | [Byte](#Type:Byte) | The button used in the click, see below.
@@ -3414,7 +3431,7 @@ Notchian clients send a Close Window packet with Window ID 0 to close their inve
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x0F | Play | Server | Window ID | [Unsigned Byte](#Type:Unsigned_Byte) | This is the ID of the window that was closed. 0 for player inventory.
+0x10 | Play | Server | Window ID | [Unsigned Byte](#Type:Unsigned_Byte) | This is the ID of the window that was closed. 0 for player inventory.
 
 #### Change Container Slot State
 
@@ -3422,7 +3439,7 @@ This packet is sent by the client when toggling the state of a Crafter.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x10 | Play | Server | Slot ID | [VarInt](#Type:VarInt) | This is the ID of the slot that was changed.
+0x11 | Play | Server | Slot ID | [VarInt](#Type:VarInt) | This is the ID of the slot that was changed.
 ^ | ^ | ^ | Window ID | [VarInt](#Type:VarInt) | This is the ID of the window that was changed.
 ^ | ^ | ^ | State | [Boolean](#Type:Boolean) | The new state of the slot. True for enabled, false for disabled.
 
@@ -3432,7 +3449,7 @@ Response to a [Cookie Request (play)](#Cookie_Request_.28play.29) from the serve
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x11 | Play | Server | Key | [Identifier](#Type:Identifier) | The identifier of the cookie.
+0x12 | Play | Server | Key | [Identifier](#Type:Identifier) | The identifier of the cookie.
 ^ | ^ | ^ | Has Payload | [Boolean](#Type:Boolean) | The payload is only present if the cookie exists on the client.
 ^ | ^ | ^ | Payload Length | [Optional](#Type:Optional) [VarInt](#Type:VarInt) | Length of the following byte array.
 ^ | ^ | ^ | Payload | [Optional](#Type:Optional) [Byte Array](#Type:Byte_Array) (5120) | The data of the cookie, if any.
@@ -3449,7 +3466,7 @@ Note that the length of Data is known only from the packet length, since the pac
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x12 | Play | Server | Channel | [Identifier](#Type:Identifier) | Name of the [plugin channel](http://wiki.vg/Plugin_channel "Plugin channel") used to send the data.
+0x13 | Play | Server | Channel | [Identifier](#Type:Identifier) | Name of the [plugin channel](http://wiki.vg/Plugin_channel "Plugin channel") used to send the data.
 ^ | ^ | ^ | Data | [Byte Array](#Type:Byte_Array) (32767) | Any data, depending on the channel. `minecraft:` channels are documented [here](http://wiki.vg/Plugin_channel "Plugin channel"). The length of this array must be inferred from the packet length.
 
 In Notchian server, the maximum data length is 32767 bytes.
@@ -3464,13 +3481,13 @@ The Notchian server only allows subscriptions from players that are server opera
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x13 | Play | Server | Sample Type | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The type of debug sample to subscribe to. Can be one of the following:<br><br>- 0 - Tick time
+0x14 | Play | Server | Sample Type | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The type of debug sample to subscribe to. Can be one of the following:<br><br>- 0 - Tick time
 
 #### Edit Book
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x14 | Play | Server | Slot | [VarInt](#Type:VarInt) | The hotbar slot where the written book is located
+0x15 | Play | Server | Slot | [VarInt](#Type:VarInt) | The hotbar slot where the written book is located
 ^ | ^ | ^ | Count | [VarInt](#Type:VarInt) | Number of elements in the following array. Maximum array size is 200.
 ^ | ^ | ^ | Entries | [Array](#Type:Array) (200) of [String](#Type:String) (8192) | Text from each page. Maximum string length is 8192 chars.
 ^ | ^ | ^ | Has title | [Boolean](#Type:Boolean) | If true, the next field is present. true if book is being signed, false if book is being edited.
@@ -3482,7 +3499,7 @@ Used when `F3`+`I` is pressed while looking at an entity.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x15 | Play | Server | Transaction ID | [VarInt](#Type:VarInt) | An incremental ID so that the client can verify that the response matches.
+0x16 | Play | Server | Transaction ID | [VarInt](#Type:VarInt) | An incremental ID so that the client can verify that the response matches.
 ^ | ^ | ^ | Entity ID | [VarInt](#Type:VarInt) | The ID of the entity to query.
 
 #### Interact
@@ -3497,7 +3514,7 @@ Note that middle-click in creative mode is interpreted by the client and sent as
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x16 | Play | Server | Entity ID | [VarInt](#Type:VarInt) | The ID of the entity to interact. Note the special case described below.
+0x17 | Play | Server | Entity ID | [VarInt](#Type:VarInt) | The ID of the entity to interact. Note the special case described below.
 ^ | ^ | ^ | Type | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: interact, 1: attack, 2: interact at.
 ^ | ^ | ^ | Target X | [Optional](#Type:Optional) [Float](#Type:Float) | Only if Type is interact at.
 ^ | ^ | ^ | Target Y | [Optional](#Type:Optional) [Float](#Type:Float) | Only if Type is interact at.
@@ -3525,7 +3542,7 @@ Sent when Generate is pressed on the [Jigsaw Block](https://minecraft.wiki/w/Jig
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x17 | Play | Server | Location | [Position](#Type:Position) | Block entity location.
+0x18 | Play | Server | Location | [Position](#Type:Position) | Block entity location.
 ^ | ^ | ^ | Levels | [VarInt](#Type:VarInt) | Value of the levels slider/max depth to generate.
 ^ | ^ | ^ | Keep Jigsaws | [Boolean](#Type:Boolean)
 
@@ -3535,7 +3552,7 @@ The server will frequently send out a keep-alive (see [Clientbound Keep Alive](#
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-*protocol:*<br>`0x18`<br><br>*resource:*<br>`keep_alive` | Play | Server | Keep Alive ID | [Long](#Type:Long)
+*protocol:*<br>`0x19`<br><br>*resource:*<br>`keep_alive` | Play | Server | Keep Alive ID | [Long](#Type:Long)
 
 #### Lock Difficulty
 
@@ -3543,7 +3560,7 @@ Must have at least op level 2 to use. Appears to only be used on singleplayer; t
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-0x19 | Play | Server | Locked | [Boolean](#Type:Boolean)
+0x1A | Play | Server | Locked | [Boolean](#Type:Boolean)
 
 #### Set Player Position
 
@@ -3580,7 +3597,7 @@ Checking for illegal flight is achieved like this:
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x1A | Play | Server | X | [Double](#Type:Double) | Absolute position.
+0x1B | Play | Server | X | [Double](#Type:Double) | Absolute position.
 ^ | ^ | ^ | Feet Y | [Double](#Type:Double) | Absolute feet position, normally Head Y - 1.62.
 ^ | ^ | ^ | Z | [Double](#Type:Double) | Absolute position.
 ^ | ^ | ^ | On Ground | [Boolean](#Type:Boolean) | True if the client is on the ground, false otherwise.
@@ -3591,7 +3608,7 @@ A combination of [Move Player Rotation](#Set_Player_Rotation) and [Move Player P
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x1B | Play | Server | X | [Double](#Type:Double) | Absolute position.
+0x1C | Play | Server | X | [Double](#Type:Double) | Absolute position.
 ^ | ^ | ^ | Feet Y | [Double](#Type:Double) | Absolute feet position, normally Head Y - 1.62.
 ^ | ^ | ^ | Z | [Double](#Type:Double) | Absolute position.
 ^ | ^ | ^ | Yaw | [Float](#Type:Float) | Absolute rotation on the X Axis, in degrees.
@@ -3637,7 +3654,7 @@ z =  cos(pitch) * cos(yaw)
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x1C | Play | Server | Yaw | [Float](#Type:Float) | Absolute rotation on the X Axis, in degrees.
+0x1D | Play | Server | Yaw | [Float](#Type:Float) | Absolute rotation on the X Axis, in degrees.
 ^ | ^ | ^ | Pitch | [Float](#Type:Float) | Absolute rotation on the Y Axis, in degrees.
 ^ | ^ | ^ | On Ground | [Boolean](#Type:Boolean) | True if the client is on the ground, false otherwise.
 
@@ -3651,7 +3668,7 @@ When dropping from sufficient height, fall damage is applied when this state goe
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x1D | Play | Server | On Ground | [Boolean](#Type:Boolean) | True if the client is on the ground, false otherwise.
+0x1E | Play | Server | On Ground | [Boolean](#Type:Boolean) | True if the client is on the ground, false otherwise.
 
 #### Move Vehicle
 
@@ -3659,7 +3676,7 @@ Sent when a player moves in a vehicle. Fields are the same as in [Set Player Pos
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x1E | Play | Server | X | [Double](#Type:Double) | Absolute position (X coordinate).
+0x1F | Play | Server | X | [Double](#Type:Double) | Absolute position (X coordinate).
 ^ | ^ | ^ | Y | [Double](#Type:Double) | Absolute position (Y coordinate).
 ^ | ^ | ^ | Z | [Double](#Type:Double) | Absolute position (Z coordinate).
 ^ | ^ | ^ | Yaw | [Float](#Type:Float) | Absolute rotation on the vertical axis, in degrees.
@@ -3671,7 +3688,7 @@ Used to *visually* update whether boat paddles are turning. The server will upda
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-0x1F | Play | Server | Left paddle turning | [Boolean](#Type:Boolean)
+0x20 | Play | Server | Left paddle turning | [Boolean](#Type:Boolean)
 ^ | ^ | ^ | Right paddle turning | [Boolean](#Type:Boolean)
 
 Right paddle turning is set to true when the left button or forward button is held, left paddle turning is set to true when the right button or forward button is held.
@@ -3682,7 +3699,7 @@ Used to swap out an empty space on the hotbar with the item in the given invento
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x20 | Play | Server | Slot to use | [VarInt](#Type:VarInt) | See [Inventory](http://wiki.vg/Inventory "Inventory").
+0x21 | Play | Server | Slot to use | [VarInt](#Type:VarInt) | See [Inventory](http://wiki.vg/Inventory "Inventory").
 
 The server first searches the player's hotbar for an empty slot, starting from the current slot and looping around to the slot before it. If there are no empty slots, it starts a second search from the current slot and finds the first slot that does not contain an enchanted item. If there still are no slots that meet that criteria, then the server uses the currently selected slot.
 
@@ -3696,7 +3713,7 @@ After finding the appropriate slot, the server swaps the items and sends 3 packe
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x21 | Play | Server | Payload | [Long](#Type:Long) | May be any number. Notchian clients use a system-dependent time value which is counted in milliseconds.
+0x22 | Play | Server | Payload | [Long](#Type:Long) | May be any number. Notchian clients use a system-dependent time value which is counted in milliseconds.
 
 #### Place Recipe
 
@@ -3704,7 +3721,7 @@ This packet is sent when a player clicks a recipe in the crafting book that is c
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x22 | Play | Server | Window ID | [Byte](#Type:Byte)
+0x23 | Play | Server | Window ID | [Byte](#Type:Byte)
 ^ | ^ | ^ | Recipe | [Identifier](#Type:Identifier) | A recipe ID.
 ^ | ^ | ^ | Make all | [Boolean](#Type:Boolean) | Affects the amount of items processed; true if shift is down when clicked.
 
@@ -3714,7 +3731,7 @@ The vanilla client sends this packet when the player starts/stops flying with th
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x23 | Play | Server | Flags | [Byte](#Type:Byte) | Bit mask. 0x02: is flying.
+0x24 | Play | Server | Flags | [Byte](#Type:Byte) | Bit mask. 0x02: is flying.
 
 #### Player Action
 
@@ -3722,7 +3739,7 @@ Sent when the player mines a block. A Notchian server only accepts digging packe
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x24 | Play | Server | Status | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The action the player is taking against the block (see below).
+0x25 | Play | Server | Status | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The action the player is taking against the block (see below).
 ^ | ^ | ^ | Location | [Position](#Type:Position) | Block position.
 ^ | ^ | ^ | Face | [Byte](#Type:Byte) [Enum](#Type:Enum) | The face being hit (see below).
 ^ | ^ | ^ | Sequence | [VarInt](#Type:VarInt) | Block change sequence number (see [#Acknowledge Block Change](#Acknowledge_Block_Change)).
@@ -3756,7 +3773,7 @@ Sent by the client to indicate that it has performed certain actions: sneaking (
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x25 | Play | Server | Entity ID | [VarInt](#Type:VarInt) | Player ID
+0x26 | Play | Server | Entity ID | [VarInt](#Type:VarInt) | Player ID
 ^ | ^ | ^ | Action ID | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The ID of the action, see below.
 ^ | ^ | ^ | Jump Boost | [VarInt](#Type:VarInt) | Only used by the “start jump with horse” action, in which case it ranges from 0 to 100. In all other cases it is 0.
 
@@ -3782,7 +3799,7 @@ Open vehicle inventory is only sent when pressing the inventory key (default: E)
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x26 | Play | Server | Sideways | [Float](#Type:Float) | Positive to the left of the player.
+0x27 | Play | Server | Sideways | [Float](#Type:Float) | Positive to the left of the player.
 ^ | ^ | ^ | Forward | [Float](#Type:Float) | Positive forward.
 ^ | ^ | ^ | Flags | [Unsigned Byte](#Type:Unsigned_Byte) | Bit mask. 0x1: jump, 0x2: unmount.
 
@@ -3794,7 +3811,7 @@ Response to the clientbound packet ([Ping](#Ping_.28play.29)) with the same ID.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x27 | Play | Server | ID | [Int](#Type:Int) | ID is the same as the ping packet
+0x28 | Play | Server | ID | [Int](#Type:Int) | ID is the same as the ping packet
 
 #### Change Recipe Book Settings
 
@@ -3802,7 +3819,7 @@ Replaces Recipe Book Data, type 1.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x28 | Play | Server | Book ID | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: crafting, 1: furnace, 2: blast furnace, 3: smoker.
+0x29 | Play | Server | Book ID | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: crafting, 1: furnace, 2: blast furnace, 3: smoker.
 ^ | ^ | ^ | Book Open | [Boolean](#Type:Boolean)
 ^ | ^ | ^ | Filter Active | [Boolean](#Type:Boolean)
 
@@ -3812,7 +3829,7 @@ Sent when recipe is first seen in recipe book. Replaces Recipe Book Data, type 0
 
 Packet ID | State | Bound To | Field Name | Field Type
 --- | --- | --- | --- | ---
-0x29 | Play | Server | Recipe ID | [Identifier](#Type:Identifier)
+0x2A | Play | Server | Recipe ID | [Identifier](#Type:Identifier)
 
 #### Rename Item
 
@@ -3820,13 +3837,13 @@ Sent as a player is renaming an item in an anvil (each keypress in the anvil UI 
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x2A | Play | Server | Item name | [String](#Type:String) (32767) | The new name of the item.
+0x2B | Play | Server | Item name | [String](#Type:String) (32767) | The new name of the item.
 
 #### Resource Pack Response (play)
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x2B | Play | Server | UUID | [UUID](#Type:UUID) | The unique identifier of the resource pack received in the [Add Resource Pack (play)](#Add_Resource_Pack_.28play.29) request.
+0x2C | Play | Server | UUID | [UUID](#Type:UUID) | The unique identifier of the resource pack received in the [Add Resource Pack (play)](#Add_Resource_Pack_.28play.29) request.
 ^ | ^ | ^ | Result | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Result ID (see below).
 
 Result can be one of the following values:
@@ -3846,7 +3863,7 @@ ID | Result
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x2C | Play | Server | Action | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: Opened tab, 1: Closed screen.
+0x2D | Play | Server | Action | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | 0: Opened tab, 1: Closed screen.
 ^ | ^ | ^ | Tab ID | [Optional](#Type:Optional) [Identifier](#Type:Identifier) | Only present if action is Opened tab.
 
 #### Select Trade
@@ -3855,7 +3872,7 @@ When a player selects a specific trade offered by a villager NPC.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x2D | Play | Server | Selected slot | [VarInt](#Type:VarInt) | The selected slot in the players current (trading) inventory.
+0x2E | Play | Server | Selected slot | [VarInt](#Type:VarInt) | The selected slot in the players current (trading) inventory.
 
 #### Set Beacon Effect
 
@@ -3863,7 +3880,7 @@ Changes the effect of the current beacon.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x2E | Play | Server | Has Primary Effect | [Boolean](#Type:Boolean)
+0x2F | Play | Server | Has Primary Effect | [Boolean](#Type:Boolean)
 ^ | ^ | ^ | Primary Effect | [Optional](#Type:Optional) [VarInt](#Type:VarInt) | A [Potion ID](https://minecraft.wiki/w/Potion#ID).
 ^ | ^ | ^ | Has Secondary Effect | [Boolean](#Type:Boolean)
 ^ | ^ | ^ | Secondary Effect | [Optional](#Type:Optional) [VarInt](#Type:VarInt) | A [Potion ID](https://minecraft.wiki/w/Potion#ID).
@@ -3874,13 +3891,13 @@ Sent when the player changes the slot selection.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x2F | Play | Server | Slot | [Short](#Type:Short) | The slot which the player has selected (0–8).
+0x30 | Play | Server | Slot | [Short](#Type:Short) | The slot which the player has selected (0–8).
 
 #### Program Command Block
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x30 | Play | Server | Location | [Position](#Type:Position)
+0x31 | Play | Server | Location | [Position](#Type:Position)
 ^ | ^ | ^ | Command | [String](#Type:String) (32767)
 ^ | ^ | ^ | Mode | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | One of SEQUENCE (0), AUTO (1), or REDSTONE (2).
 ^ | ^ | ^ | Flags | [Byte](#Type:Byte) | 0x01: Track Output (if false, the output of the previous command will not be stored within the command block); 0x02: Is conditional; 0x04: Automatic.
@@ -3889,7 +3906,7 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x31 | Play | Server | Entity ID | [VarInt](#Type:VarInt)
+0x32 | Play | Server | Entity ID | [VarInt](#Type:VarInt)
 ^ | ^ | ^ | Command | [String](#Type:String) (32767)
 ^ | ^ | ^ | Track Output | [Boolean](#Type:Boolean) | If false, the output of the previous command will not be stored within the command block.
 
@@ -3903,7 +3920,7 @@ This action can be described as "set inventory slot". Picking up an item sets th
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x32 | Play | Server | Slot | [Short](#Type:Short) | Inventory slot.
+0x33 | Play | Server | Slot | [Short](#Type:Short) | Inventory slot.
 ^ | ^ | ^ | Clicked Item | [Slot](#Type:Slot)
 
 #### Program Jigsaw Block
@@ -3912,7 +3929,7 @@ Sent when Done is pressed on the [Jigsaw Block](https://minecraft.wiki/w/Jigsaw_
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x33 | Play | Server | Location | [Position](#Type:Position) | Block entity location
+0x34 | Play | Server | Location | [Position](#Type:Position) | Block entity location
 ^ | ^ | ^ | Name | [Identifier](#Type:Identifier)
 ^ | ^ | ^ | Target | [Identifier](#Type:Identifier)
 ^ | ^ | ^ | Pool | [Identifier](#Type:Identifier)
@@ -3925,7 +3942,7 @@ Packet ID | State | Bound To | Field Name | Field Type | Notes
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x34 | Play | Server | Location | [Position](#Type:Position) | Block entity location.
+0x35 | Play | Server | Location | [Position](#Type:Position) | Block entity location.
 ^ | ^ | ^ | Action | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | An additional action to perform beyond simply saving the given data; see below.
 ^ | ^ | ^ | Mode | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | One of SAVE (0), LOAD (1), CORNER (2), DATA (3).
 ^ | ^ | ^ | Name | [String](#Type:String) (32767)
@@ -3959,7 +3976,7 @@ The server only accepts this packet after [Open Sign Editor](#Open_Sign_Editor),
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x35 | Play | Server | Location | [Position](#Type:Position) | Block Coordinates.
+0x36 | Play | Server | Location | [Position](#Type:Position) | Block Coordinates.
 ^ | ^ | ^ | Is Front Text | [Boolean](#Type:Boolean) | Whether the updated text is in front or on the back of the sign
 ^ | ^ | ^ | Line 1 | [String](#Type:String) (384) | First line of text in the sign.
 ^ | ^ | ^ | Line 2 | [String](#Type:String) (384) | Second line of text in the sign.
@@ -3972,7 +3989,7 @@ Sent when the player's arm swings.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x36 | Play | Server | Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Hand used for the animation. 0: main hand, 1: off hand.
+0x37 | Play | Server | Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Hand used for the animation. 0: main hand, 1: off hand.
 
 #### Teleport To Entity
 
@@ -3982,13 +3999,13 @@ The Notchian client only uses this to teleport to players, but it appears to acc
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x37 | Play | Server | Target Player | [UUID](#Type:UUID) | UUID of the player to teleport to (can also be an entity UUID).
+0x38 | Play | Server | Target Player | [UUID](#Type:UUID) | UUID of the player to teleport to (can also be an entity UUID).
 
 #### Use Item On
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x38 | Play | Server | Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The hand from which the block is placed; 0: main hand, 1: off hand.
+0x39 | Play | Server | Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The hand from which the block is placed; 0: main hand, 1: off hand.
 ^ | ^ | ^ | Location | [Position](#Type:Position) | Block position.
 ^ | ^ | ^ | Face | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | The face on which the block is placed (as documented at [Player Action](#Player_Action)).
 ^ | ^ | ^ | Cursor Position X | [Float](#Type:Float) | The position of the crosshair on the block, from 0 to 1 increasing from west to east. Cursor
@@ -4009,7 +4026,7 @@ Sent when pressing the Use Item key (default: right click) with an item in hand.
 
 Packet ID | State | Bound To | Field Name | Field Type | Notes
 --- | --- | --- | --- | --- | ---
-0x39 | Play | Server | Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Hand used for the animation. 0: main hand, 1: off hand.
+0x3A | Play | Server | Hand | [VarInt](#Type:VarInt) [Enum](#Type:Enum) | Hand used for the animation. 0: main hand, 1: off hand.
 ^ | ^ | ^ | Sequence | [VarInt](#Type:VarInt) | Block change sequence number (see [#Acknowledge Block Change](#Acknowledge_Block_Change)).
 ^ | ^ | ^ | Yaw | [Float](#Type:Float) | Player head rotation along the Y-Axis.
 ^ | ^ | ^ | Pitch | [Float](#Type:Float) | Player head rotation along the X-Axis.
